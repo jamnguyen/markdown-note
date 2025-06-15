@@ -1,14 +1,14 @@
-import React from 'react';
-import type { NoteViewerProps } from './NoteViewer.types';
-import { ViewerContainer } from './NoteViewer.styled';
 import ReactMarkdown from 'react-markdown';
+import { ViewerContainer } from './NoteViewer.styled';
 
-const NoteViewer: React.FC<NoteViewerProps> = ({ value }) => {
+export interface NoteViewerProps {
+  value: string;
+}
+
+export function NoteViewer({ value }: NoteViewerProps) {
   return (
     <ViewerContainer>
       <ReactMarkdown>{value}</ReactMarkdown>
     </ViewerContainer>
   );
-};
-
-export default NoteViewer;
+}

@@ -1,13 +1,14 @@
 import React from 'react';
-import type { LayoutProps } from './Layout.types';
 import { Root, Main } from './Layout.styled';
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+export interface LayoutProps {
+  children: React.ReactNode;
+}
+
+export function Layout({ children }: LayoutProps) {
   return (
     <Root>
       <Main>{children}</Main>
     </Root>
   );
-};
-
-export default Layout;
+}

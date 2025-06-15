@@ -1,18 +1,21 @@
 import { createTheme } from '@mui/material/styles';
-import palette from './palette';
+import palette, { darkPalette } from './palette';
 import { shadows } from './shadows';
 import { spacing } from './spacing';
 import { typography } from './typography';
 import components from './components';
 import { breakpoints } from './breakpoints';
 
-const theme = createTheme({
-  palette,
-  shadows,
-  spacing,
-  typography,
-  components,
-  breakpoints,
-});
+export function createAppTheme(mode: 'light' | 'dark') {
+  return createTheme({
+    palette: mode === 'dark' ? darkPalette : palette,
+    shadows,
+    spacing,
+    typography,
+    components,
+    breakpoints,
+  });
+}
 
+const theme = createAppTheme('light');
 export { theme };

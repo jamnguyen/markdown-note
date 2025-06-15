@@ -1,30 +1,39 @@
-import React from 'react';
-import type { NoteEditorProps } from './NoteEditor.types';
-import { EditorContainer, TitleInput, MarkdownInput } from './NoteEditor.styled';
+import { useMemo } from 'react';
+import { EditorContainer } from './NoteEditor.styled';
+import CodeMirror from '@uiw/react-codemirror';
+import { markdown } from '@codemirror/lang-markdown';
+import { dracula } from '@uiw/codemirror-theme-dracula';
+import { EditorView } from '@codemirror/view';
 
-const NoteEditor: React.FC<NoteEditorProps> = ({ value, onChange, title, onTitleChange }) => {
+export interface NoteEditorProps {
+  value: string;
+  onChange: (value: string) => void;
+  themeMode?: 'light' | 'dark' | 'system';
+}
+
+export function NoteEditor({ value, onChange, themeMode = 'system' }: NoteEditorProps) {
+  const resolvedTheme = useMemo(() => {
+    if (themeMode === 'system') {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+      return 'light';
+    }
+    return themeMode;
+  }, [themeMode]);
+
   return (
     <EditorContainer>
-      <TitleInput
-        variant='standard'
-        placeholder='Title'
-        value={title || ''}
-        onChange={(e) => onTitleChange?.(e.target.value)}
-        InputProps={{ disableUnderline: true }}
-        fullWidth
-      />
-      <MarkdownInput
-        variant='outlined'
-        placeholder='Write your note in markdown...'
+      <CodeMirror
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        multiline
-        minRows={12}
-        maxRows={32}
-        fullWidth
+        height='100%'
+        minHeight='100%'
+        theme={resolvedTheme === 'dark' ? dracula : 'light'}
+        extensions={[markdown(), EditorView.lineWrapping]}
+        onChange={onChange}
+        basicSetup={{ lineNumbers: true, highlightActiveLine: true }}
+        style={{ fontSize: 16, fontFamily: 'monospace', flex: 1 }}
       />
     </EditorContainer>
   );
-};
-
-export default NoteEditor;
+}

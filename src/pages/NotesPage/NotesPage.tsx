@@ -1,27 +1,23 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import type { RootState, AppDispatch } from '../store';
-import { setNotes, createNote, updateNote, deleteNote, selectNote } from '../store';
-import notesDb from '../db/notesDb';
-import { Layout } from '../components/Layout/Layout';
-import { Sidebar } from '../components/Sidebar/Sidebar';
-import { NoteEditor } from '../components/NoteEditor/NoteEditor';
-import { NoteViewer } from '../components/NoteViewer/NoteViewer';
-import { MainArea, EmptyState, EditorColumn, ViewerColumn } from './NotesPage/NotesPage.styled';
+import type { RootState, AppDispatch, Note } from '../../store';
+import { setNotes, createNote, updateNote, deleteNote, selectNote } from '../../store';
+import notesDb from '../../db/notesDb';
+import { Layout } from '../../components/Layout';
+import { Sidebar } from '../../components/Sidebar';
+import { NoteEditor } from '../../components/NoteEditor';
+import { NoteViewer } from '../../components/NoteViewer';
+import { MainArea, EmptyState } from './NotesPage.styled';
 import { Typography } from '@mui/material';
 
-interface NotesPageProps {
-  mode: 'light' | 'dark';
-  setMode: (mode: 'light' | 'dark') => void;
-}
-
-const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {
+export const NotesPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const notes = useSelector((state: RootState) => state.notes.notes);
   const selectedNoteId = useSelector((state: RootState) => state.notes.selectedNoteId);
   const selectedNote = notes.find((n) => n.id === selectedNoteId) || null;
   const [sidebarWidth, setSidebarWidth] = useState(280);
   const dragging = useRef(false);
+  const [mode, setMode] = useState('light');
 
   // Load notes from DB on mount
   useEffect(() => {
@@ -53,14 +49,13 @@ const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {
     [dispatch],
   );
 
-  const handleUpdateTitle = useCallback(
-    (id: string, title: string) => {
-      const note = notes.find((n) => n.id === id);
-      if (note) {
-        dispatch(updateNote({ id, title, content: note.content }));
+  const handleTitleChange = useCallback(
+    (title: string) => {
+      if (selectedNote) {
+        dispatch(updateNote({ id: selectedNote.id, title, content: selectedNote.content }));
       }
     },
-    [dispatch, notes],
+    [dispatch, selectedNote],
   );
 
   const handleContentChange = useCallback(
@@ -93,6 +88,15 @@ const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {
     [sidebarWidth],
   );
 
+  const handleUpdateTitle = useCallback(
+    (title: string) => {
+      if (selectedNote) {
+        dispatch(updateNote({ id: selectedNote.id, title, content: selectedNote.content }));
+      }
+    },
+    [dispatch, selectedNote],
+  );
+
   return (
     <Layout>
       <Sidebar
@@ -113,9 +117,7 @@ const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {
             <EditorColumn>
               <NoteEditor value={selectedNote.content} onChange={handleContentChange} themeMode={mode} />
             </EditorColumn>
-            <ViewerColumn>
-              <NoteViewer value={selectedNote.content} />
-            </ViewerColumn>
+            <NoteViewer value={selectedNote.content} />
           </>
         ) : (
           <EmptyState>
@@ -126,5 +128,3 @@ const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {
     </Layout>
   );
 };
-
-export default NotesPage;

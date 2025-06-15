@@ -12,12 +12,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-markdown": "^6.3.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.1",
     "@mui/material": "^7.1.1",
     "@reduxjs/toolkit": "^2.8.2",
+    "@uiw/codemirror-theme-dracula": "^4.23.13",
+    "@uiw/react-codemirror": "^4.23.13",
     "localforage": "^1.10.0",
+    "phosphor-react": "^1.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",

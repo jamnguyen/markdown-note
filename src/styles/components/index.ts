@@ -7,6 +7,7 @@ import { MuiInputBase } from './MuiInputBase';
 import { MuiIconButton } from './MuiIconButton';
 import { MuiFab } from './MuiFab';
 import { MuiListItemButton } from './MuiListItemButton';
+import { MuiToggleButton } from './MuiToggleButtonGroup';
 
 const components: Components = {
   MuiButton,
@@ -17,6 +18,7 @@ const components: Components = {
   MuiIconButton,
   MuiFab,
   MuiListItemButton,
+  MuiToggleButton,
 };
 
 export default components;
