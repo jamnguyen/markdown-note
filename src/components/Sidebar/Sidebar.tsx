@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import type { SidebarProps } from './Sidebar.types';
 import {
   SidebarContainer,
@@ -14,6 +14,11 @@ import {
   CreditText,
   NoteTitleRow,
   NoteTitleEditIcon,
+  SearchContainer,
+  ScrollArea,
+  NoteListItemWrapper,
+  ActionButtonsContainer,
+  NoteTitleTextField,
 } from './Sidebar.styled';
 import {
   ListItem,
@@ -26,11 +31,11 @@ import {
   Button,
   Box,
   TextField,
-  Tooltip,
   ToggleButtonGroup,
   ToggleButton,
+  InputAdornment,
 } from '@mui/material';
-import { Trash, Plus, PencilSimple, Sun, Moon, Desktop } from 'phosphor-react';
+import { Trash, Plus, PencilSimple, Sun, Moon, Desktop, MagnifyingGlass, X } from 'phosphor-react';
 
 export const Sidebar: React.FC<SidebarProps> = ({
   notes,
@@ -45,26 +50,35 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onUpdateTitle,
 }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState('');
 
   const handleDeleteClick = (id: string) => {
-    setPendingDeleteId(id);
+    setNoteToDelete(id);
     setDeleteDialogOpen(true);
   };
 
   const handleConfirmDelete = () => {
-    if (pendingDeleteId) {
-      onDelete(pendingDeleteId);
+    if (noteToDelete) {
+      onDelete(noteToDelete);
+      setDeleteDialogOpen(false);
+      setNoteToDelete(null);
     }
-    setDeleteDialogOpen(false);
-    setPendingDeleteId(null);
   };
 
   const handleCancelDelete = () => {
     setDeleteDialogOpen(false);
-    setPendingDeleteId(null);
+    setNoteToDelete(null);
+  };
+
+  const toggleSearch = () => {
+    setSearchOpen(!searchOpen);
+    if (searchOpen) {
+      setSearchQuery('');
+    }
   };
 
   const handleTitleEdit = (id: string, title: string) => {
@@ -83,7 +97,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setEditingId(null);
   };
 
-  const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, id: string) => {
+  const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, id: string) => {
     if (e.key === 'Enter') {
       handleTitleBlur(id);
     } else if (e.key === 'Escape') {
@@ -91,85 +105,127 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  const sortedAndFilteredNotes = useMemo(() => {
+    return [...notes]
+      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .filter((note) => note.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  }, [notes, searchQuery]);
+
   return (
     <SidebarContainer width={width}>
       <DragHandle onMouseDown={onDragHandleMouseDown} />
       <SidebarHeader>
         <SidebarTitle variant='h4'>Markdown Notes</SidebarTitle>
-        <IconButton color='primary' onClick={onCreate} size='small'>
-          <Plus size={20} weight='bold' />
-        </IconButton>
+        <Box sx={{ display: 'flex', gap: 0.5 }}>
+          <IconButton color='primary' onClick={toggleSearch} size='small' sx={{ padding: '4px' }}>
+            <MagnifyingGlass size={14} weight='bold' />
+          </IconButton>
+          <IconButton color='primary' onClick={onCreate} size='small' sx={{ padding: '4px' }}>
+            <Plus size={14} weight='bold' />
+          </IconButton>
+        </Box>
       </SidebarHeader>
-      <NotesList>
-        {notes.map((note) => (
-          <ListItem
-            key={note.id}
-            disablePadding
-            secondaryAction={
-              <DeleteIconButton
-                edge='end'
-                aria-label='delete'
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteClick(note.id);
-                }}>
-                <Trash size={20} weight='bold' />
-              </DeleteIconButton>
-            }>
-            <NoteListItem selected={note.id === selectedNoteId} onClick={() => onSelect(note.id)}>
-              <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+      <SearchContainer className={searchOpen ? 'visible' : ''}>
+        <TextField
+          size='small'
+          fullWidth
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder='Search notes...'
+          sx={{
+            '& .MuiInputBase-root': {
+              height: 32,
+              fontSize: '0.875rem',
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <MagnifyingGlass size={14} />
+              </InputAdornment>
+            ),
+            endAdornment: searchQuery && (
+              <InputAdornment position='end'>
+                <IconButton size='small' onClick={() => setSearchQuery('')} sx={{ padding: '2px' }}>
+                  <X size={12} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </SearchContainer>
+      <ScrollArea>
+        <NotesList>
+          {sortedAndFilteredNotes.map((note) => (
+            <NoteListItemWrapper
+              key={note.id}
+              disablePadding
+              secondaryAction={
+                <ActionButtonsContainer className='action-buttons'>
+                  <NoteTitleEditIcon
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleTitleEdit(note.id, note.title || 'Untitled');
+                    }}>
+                    <PencilSimple size={12} />
+                  </NoteTitleEditIcon>
+                  <DeleteIconButton
+                    edge='end'
+                    aria-label='delete'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(note.id);
+                    }}>
+                    <Trash size={14} weight='bold' />
+                  </DeleteIconButton>
+                </ActionButtonsContainer>
+              }>
+              <NoteListItem selected={note.id === selectedNoteId} onClick={() => onSelect(note.id)}>
                 <NoteListItemContent>
-                  {editingId === note.id ? (
-                    <TextField
-                      value={editingValue}
-                      onChange={handleTitleChange}
-                      onBlur={() => handleTitleBlur(note.id)}
-                      onKeyDown={(e) => handleTitleKeyDown(e as React.KeyboardEvent<HTMLInputElement>, note.id)}
-                      size='small'
-                      autoFocus
-                      fullWidth
-                      variant='standard'
-                    />
-                  ) : (
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
                     <NoteTitleRow>
-                      <NoteSidebarTitle
-                        variant='body2'
-                        sx={{ cursor: 'pointer', flex: 1 }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onSelect(note.id);
-                        }}>
-                        {note.title || 'Untitled'}
-                      </NoteSidebarTitle>
-                      <NoteTitleEditIcon
-                        className='note-title-edit-icon'
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTitleEdit(note.id, note.title || 'Untitled');
-                        }}>
-                        <Tooltip title='Edit title'>
-                          <PencilSimple size={16} />
-                        </Tooltip>
-                      </NoteTitleEditIcon>
+                      {editingId === note.id ? (
+                        <NoteTitleTextField
+                          value={editingValue}
+                          onChange={handleTitleChange}
+                          onBlur={() => handleTitleBlur(note.id)}
+                          onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => handleTitleKeyDown(e, note.id)}
+                          size='small'
+                          autoFocus
+                          fullWidth
+                          variant='standard'
+                        />
+                      ) : (
+                        <NoteSidebarTitle>{note.title || 'Untitled'}</NoteSidebarTitle>
+                      )}
                     </NoteTitleRow>
-                  )}
-                  <NoteMeta>{new Date(note.updatedAt).toLocaleString()}</NoteMeta>
+                    <NoteMeta>{new Date(note.updatedAt).toLocaleString()}</NoteMeta>
+                  </Box>
                 </NoteListItemContent>
-              </Box>
-            </NoteListItem>
-          </ListItem>
-        ))}
-      </NotesList>
+              </NoteListItem>
+            </NoteListItemWrapper>
+          ))}
+        </NotesList>
+      </ScrollArea>
       <Box sx={{ mt: 'auto', p: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-        <ToggleButtonGroup value={mode} exclusive onChange={(_, value) => value && setMode(value)} size='small'>
+        <ToggleButtonGroup
+          value={mode}
+          exclusive
+          onChange={(_, value) => value && setMode(value)}
+          size='small'
+          sx={{
+            '& .MuiToggleButton-root': {
+              padding: '4px',
+            },
+          }}>
           <ToggleButton value='light'>
-            <Sun size={16} />
+            <Sun size={14} />
           </ToggleButton>
           <ToggleButton value='dark'>
-            <Moon size={16} />
+            <Moon size={14} />
           </ToggleButton>
           <ToggleButton value='system'>
-            <Desktop size={16} />
+            <Desktop size={14} />
           </ToggleButton>
         </ToggleButtonGroup>
         <CreditText>Version {process.env.npm_package_version}</CreditText>

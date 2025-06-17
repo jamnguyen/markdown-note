@@ -11,8 +11,8 @@ import { MainArea, EmptyState, EditorColumn, ViewerColumn } from './NotesPage/No
 import { Typography } from '@mui/material';
 
 interface NotesPageProps {
-  mode: 'light' | 'dark';
-  setMode: (mode: 'light' | 'dark') => void;
+  mode: 'light' | 'dark' | 'system';
+  setMode: (mode: 'light' | 'dark' | 'system') => void;
 }
 
 const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {

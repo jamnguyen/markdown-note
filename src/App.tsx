@@ -7,20 +7,47 @@ import { createAppTheme } from './styles/theme';
 
 const THEME_KEY = 'markdown-note-theme-mode';
 
+type ThemeMode = 'light' | 'dark' | 'system';
+
+const getSystemTheme = (): 'light' | 'dark' => {
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+  return 'light';
+};
+
 const App: React.FC = () => {
-  const [mode, setModeState] = useState<'light' | 'dark'>(() => {
+  const [mode, setModeState] = useState<ThemeMode>(() => {
     const stored = localStorage.getItem(THEME_KEY);
-    return stored === 'dark' ? 'dark' : 'light';
+    return (stored as ThemeMode) || 'system';
   });
-  const theme = useMemo(() => createAppTheme(mode), [mode]);
+
+  const resolvedMode = useMemo(() => {
+    return mode === 'system' ? getSystemTheme() : mode;
+  }, [mode]);
+
+  const theme = useMemo(() => createAppTheme(resolvedMode), [resolvedMode]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      if (mode === 'system') {
+        // Force a re-render when system theme changes
+        setModeState('system');
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [mode]);
 
   useEffect(() => {
     localStorage.setItem(THEME_KEY, mode);
   }, [mode]);
 
-  const setMode = (m: 'light' | 'dark') => {
-    setModeState(m);
-    localStorage.setItem(THEME_KEY, m);
+  const setMode = (newMode: ThemeMode) => {
+    setModeState(newMode);
+    localStorage.setItem(THEME_KEY, newMode);
   };
 
   return (

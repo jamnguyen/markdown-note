@@ -12,14 +12,11 @@ export const MainArea = styled(Box)(() => ({
 }));
 
 export const EditorColumn = styled(Box)(({ theme }) => ({
-  width: 800,
+  flex: 1,
   minWidth: 0,
-  maxWidth: 800,
   display: 'flex',
   borderRight: `1.5px solid ${theme.palette.border}`,
   flexDirection: 'column',
-  flexShrink: 0,
-  flexGrow: 0,
   overflow: 'hidden',
   '& .cm-content': {
     whiteSpace: 'pre-wrap',
@@ -29,7 +26,7 @@ export const EditorColumn = styled(Box)(({ theme }) => ({
 
 export const ViewerColumn = styled(Box)(() => ({
   flex: 1,
-  minHeight: 0,
+  minWidth: 0,
   display: 'flex',
 }));
 
