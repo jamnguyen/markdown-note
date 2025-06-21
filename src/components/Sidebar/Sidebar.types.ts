@@ -11,7 +11,4 @@ export interface SidebarProps {
   mode: 'light' | 'dark' | 'system';
   setMode: (mode: 'light' | 'dark' | 'system') => void;
   onUpdateTitle?: (id: string, title: string) => void;
-  isEncrypted?: boolean;
-  onPasswordSetup?: () => void;
-  onPasswordManagement?: () => void;
 }

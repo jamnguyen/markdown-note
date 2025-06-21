@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Box, List, ListItemButton, Button, Typography, IconButton, ListItem, TextField } from '@mui/material';
+import { Box, List, ListItemButton, Typography, IconButton, ListItem, TextField } from '@mui/material';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 
@@ -22,18 +22,18 @@ export const SidebarHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: theme.spacing(2),
+  padding: theme.spacing(2, 2, 1, 2),
   fontFamily: theme.typography.fontFamily,
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.primary,
-  borderBottom: `1px solid ${theme.palette.border}`,
+  flexShrink: 0,
 }));
 
 export const SidebarTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: theme.typography.h5.fontWeight,
-  fontSize: theme.typography.h5.fontSize,
-  letterSpacing: theme.typography.h5.letterSpacing,
-  fontFamily: theme.typography.fontFamily,
+  fontWeight: 400,
+  fontSize: theme.typography.h6.fontSize,
+  letterSpacing: theme.typography.h6.letterSpacing,
+  fontFamily: '"Cal Sans", system-ui, -apple-system, sans-serif',
   color: theme.palette.text.primary,
 }));
 
@@ -58,31 +58,37 @@ export const ScrollArea = styled(SimpleBar)(({ theme }) => ({
   flex: 1,
   minHeight: 0,
   backgroundColor: theme.palette.background.paper,
+  '.simplebar-scrollbar': {
+    opacity: 0,
+    transition: 'opacity 0.2s ease-in-out',
+  },
+  '&:hover .simplebar-scrollbar': {
+    opacity: 1,
+  },
   '.simplebar-scrollbar::before': {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.text.disabled,
+    opacity: 0.3,
   },
 }));
 
 export const NotesList = styled(List)(({ theme }) => ({
-  padding: theme.spacing(1, 0),
+  padding: theme.spacing(0, 0, 2, 0),
   fontFamily: theme.typography.fontFamily,
 }));
 
 export const NoteListItem = styled(ListItemButton)<{ selected: boolean }>(({ theme, selected }) => ({
   backgroundColor: selected ? theme.palette.retro.purple : 'transparent',
   fontWeight: selected ? theme.typography.h6.fontWeight : theme.typography.body1.fontWeight,
-  borderRadius: theme.spacing(1.5),
+  borderRadius: theme.spacing(0.75),
   marginBottom: theme.spacing(0.5),
   fontFamily: theme.typography.fontFamily,
   padding: theme.spacing(1, 2),
-  border: selected ? `1px solid ${theme.palette.primary.main}` : `1px solid transparent`,
+  border: 'none',
   margin: theme.spacing(0.5, 1.5),
   boxShadow: 'none',
-  transition: 'all 0.2s ease-in-out',
+  transition: 'background-color 0.05s ease-in-out, font-weight 0.05s ease-in-out',
   '&:hover': {
-    backgroundColor: theme.palette.action.hover,
-    transform: 'translateY(-1px)',
-    boxShadow: theme.shadows[1],
+    backgroundColor: selected ? theme.palette.retro.purple : theme.palette.action.hover,
   },
 }));
 
@@ -99,13 +105,12 @@ export const NoteTitleEditIcon = styled('div')(({ theme }) => ({
   alignItems: 'center',
   color: theme.palette.text.secondary,
   padding: theme.spacing(0.5),
-  borderRadius: theme.spacing(1),
+  borderRadius: theme.spacing(0.5),
   backgroundColor: 'transparent',
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    transform: 'scale(1.05)',
+    backgroundColor: `${theme.palette.primary.main}30`,
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -119,7 +124,7 @@ export const NoteListItemContent = styled('div')(() => ({
 export const NoteMeta = styled(Typography)(({ theme }) => ({
   fontSize: theme.typography.caption.fontSize,
   color: theme.palette.text.secondary,
-  marginTop: theme.spacing(1),
+  marginTop: theme.spacing(0.25),
   fontFamily: theme.typography.fontFamily,
   letterSpacing: theme.typography.caption.letterSpacing,
 }));
@@ -128,12 +133,11 @@ export const DeleteIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0.5),
   color: theme.palette.error.main,
   backgroundColor: 'transparent',
-  borderRadius: theme.spacing(1),
+  borderRadius: theme.spacing(0.5),
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
-    backgroundColor: theme.palette.error.main,
-    color: theme.palette.error.contrastText,
-    transform: 'scale(1.05)',
+    backgroundColor: `${theme.palette.error.main}30`,
+    color: theme.palette.error.main,
   },
 }));
 
@@ -146,6 +150,7 @@ export const NoteSidebarTitle = styled(Typography)(({ theme }) => ({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
+  paddingBottom: theme.spacing(0.5),
 }));
 
 export const AboutButton = styled('button')(({ theme }) => ({
@@ -154,9 +159,8 @@ export const AboutButton = styled('button')(({ theme }) => ({
   padding: theme.spacing(0.5, 0),
   fontSize: theme.typography.body2.fontSize,
   color: theme.palette.text.secondary,
-  marginTop: theme.spacing(0.5),
   cursor: 'pointer',
-  textDecoration: 'underline',
+  textDecoration: 'none',
   transition: 'all 0.2s ease-in-out',
   fontFamily: theme.typography.fontFamily,
   fontWeight: theme.typography.body2.fontWeight,
@@ -170,57 +174,32 @@ export const AboutButton = styled('button')(({ theme }) => ({
     textDecoration: 'none',
   },
   '&:active': {
-    color: theme.palette.primary.dark || theme.palette.primary.main,
-  },
-}));
-
-export const PasswordButton = styled('button')(({ theme }) => ({
-  background: 'none',
-  border: 'none',
-  padding: theme.spacing(0.5, 0),
-  fontSize: theme.typography.body2.fontSize,
-  color: theme.palette.secondary.main,
-  marginTop: theme.spacing(0.5),
-  cursor: 'pointer',
-  textDecoration: 'underline',
-  transition: 'all 0.2s ease-in-out',
-  fontFamily: theme.typography.fontFamily,
-  fontWeight: theme.typography.body2.fontWeight,
-  letterSpacing: theme.typography.body2.letterSpacing,
-  textTransform: 'none',
-  borderRadius: 0,
-  backgroundColor: 'transparent',
-  boxShadow: 'none',
-  '&:hover': {
-    color: theme.palette.secondary.dark || theme.palette.secondary.main,
-    textDecoration: 'none',
-  },
-  '&:active': {
-    color: theme.palette.secondary.dark || theme.palette.secondary.main,
+    color: theme.palette.primary.main,
   },
 }));
 
 export const SearchContainer = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(1, 2, 1),
-  overflow: 'hidden',
-  transition: 'max-height 0.2s ease-in-out, opacity 0.2s ease-in-out',
-  maxHeight: 0,
-  opacity: 0,
+  padding: theme.spacing(1, 2, 2, 2),
   backgroundColor: theme.palette.background.paper,
-  '&.visible': {
-    maxHeight: theme.spacing(12),
-    opacity: 1,
-  },
+  flexShrink: 0,
   '& .MuiInputBase-root': {
-    borderRadius: theme.spacing(1.5),
+    borderRadius: theme.spacing(0.75),
     backgroundColor: theme.palette.background.paper,
-    border: `1px solid ${theme.palette.border}`,
     fontFamily: theme.typography.fontFamily,
     '&.Mui-focused': {
-      borderRadius: theme.spacing(1.5),
-      borderColor: theme.palette.primary.main,
-      boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
+      outline: 'none',
+      boxShadow: 'none',
     },
+  },
+  '& .MuiInput-underline:before': {
+    borderBottom: `1px solid ${theme.palette.border}`,
+  },
+  '& .MuiInput-underline:after': {
+    borderBottom: `1px solid ${theme.palette.primary.main}`,
+    borderBottomWidth: '1px',
+  },
+  '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+    borderBottom: `1px solid ${theme.palette.border}`,
   },
 }));
 
@@ -250,28 +229,43 @@ export const ActionButtonsContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const NoteTitleTextField = styled(TextField)(({ theme }) => ({
+  '&.MuiTextField-root': {
+    backgroundColor: 'transparent',
+    marginBottom: theme.spacing(0.5),
+  },
   '& .MuiInputBase-root': {
-    fontSize: theme.typography.subtitle1.fontSize,
+    fontSize: '0.875rem',
     fontFamily: theme.typography.fontFamily,
-    backgroundColor: theme.palette.background.paper,
-    border: `1px solid ${theme.palette.primary.main}`,
-    borderRadius: theme.spacing(1.5),
+    borderRadius: theme.spacing(0.75),
+    backgroundColor: 'transparent',
     '&.Mui-focused': {
-      boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
+      outline: 'none',
+      boxShadow: 'none',
     },
+  },
+  '& .MuiInput-underline:before': {
+    borderBottom: `1px solid ${theme.palette.border}`,
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomWidth: '1px',
+  },
+  '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+    borderBottom: `1px solid ${theme.palette.border}`,
+  },
+  '.MuiInputBase-inputSizeSmall': {
+    paddingBottom: 0,
   },
 }));
 
 export const RetroIconButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0.5),
   backgroundColor: 'transparent',
-  borderRadius: theme.spacing(1),
+  borderRadius: theme.spacing(0.75),
   color: theme.palette.primary.main,
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-    transform: 'scale(1.05)',
+    backgroundColor: `${theme.palette.primary.main}30`,
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -279,9 +273,18 @@ export const BottomSection = styled(Box)(({ theme }) => ({
   marginTop: 'auto',
   padding: theme.spacing(2),
   display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  gap: theme.spacing(1),
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
   backgroundColor: theme.palette.background.paper,
   borderTop: `1px solid ${theme.palette.border}`,
+  flexShrink: 0,
+  fontFamily: theme.typography.fontFamily,
+}));
+
+export const ThemePickerContainer = styled(Box)(({ theme }) => ({
+  border: `1px solid ${theme.palette.border}`,
+  borderRadius: theme.spacing(0.75),
+  display: 'flex',
+  overflow: 'hidden',
 }));

@@ -19,6 +19,9 @@ const palette: PaletteOptions = {
     primary: '#1F2937', // Dark gray
     secondary: '#6B7280', // Medium gray
   },
+  action: {
+    hover: 'rgba(0, 0, 0, 0.04)', // Light grey for hover
+  },
   success: {
     main: '#10B981', // Soft green
   },
@@ -58,12 +61,15 @@ const darkPalette: PaletteOptions = {
     contrastText: '#000000',
   },
   background: {
-    default: '#111827', // Dark gray
-    paper: '#1F2937', // Medium dark gray
+    default: '#1E1E1E', // VS Code dark background
+    paper: '#252526', // VS Code sidebar/panel background
   },
   text: {
     primary: '#F9FAFB', // Light gray
     secondary: '#9CA3AF', // Medium gray
+  },
+  action: {
+    hover: 'rgba(255, 255, 255, 0.08)', // Light grey for hover in dark mode
   },
   success: {
     main: '#34D399', // Lighter green for dark mode
@@ -86,11 +92,11 @@ const darkPalette: PaletteOptions = {
     green: '#BBF7D0',
     blue: '#BFDBFE',
     cream: '#FEF3C7',
-    beige: '#374151',
+    beige: '#3C3C3C',
     brown: '#6B7280',
     shadow: 'rgba(0, 0, 0, 0.25)',
   },
-  border: '#374151',
+  border: '#3C3C3C',
 };
 
 export default palette;

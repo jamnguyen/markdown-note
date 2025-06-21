@@ -8,18 +8,41 @@ const MuiButton: Components['MuiButton'] = {
     root: (props) => {
       const theme = props.theme as Theme;
       return {
-        borderRadius: 12,
-        boxShadow: theme.shadows[1],
-        fontWeight: 700,
+        borderRadius: theme.spacing(0.75),
+        fontWeight: theme.typography.button.fontWeight,
         fontFamily: theme.typography.fontFamily,
-        backgroundColor: theme.palette.background.paper,
-        color: theme.palette.text.primary,
-        border: `2px solid ${theme.palette.primary.main}`,
-        transition: 'all 0.2s',
+        fontSize: theme.typography.button.fontSize,
+        letterSpacing: theme.typography.button.letterSpacing,
+        textTransform: theme.typography.button.textTransform,
+        boxShadow: 'none',
+        transition: 'all 0.2s ease-in-out',
         '&:hover': {
-          backgroundColor: theme.palette.secondary.main,
-          color: theme.palette.text.primary,
-          borderColor: theme.palette.secondary.main,
+          boxShadow: 'none',
+        },
+        '&.MuiButton-contained': {
+          '&:hover': {
+            backgroundColor: `${theme.palette.primary.main}80`,
+          },
+        },
+        '&.MuiButton-containedWarning': {
+          backgroundColor: 'transparent',
+          color: theme.palette.warning.main,
+          border: 'none',
+          '&:hover': {
+            backgroundColor: `${theme.palette.warning.main}20`,
+            color: theme.palette.warning.main,
+          },
+        },
+        '&.MuiButton-outlined': {
+          '&:hover': {
+            backgroundColor: `${theme.palette.primary.main}20`,
+            borderColor: theme.palette.primary.main,
+          },
+        },
+        '&.MuiButton-text': {
+          '&:hover': {
+            backgroundColor: `${theme.palette.primary.main}20`,
+          },
         },
       };
     },

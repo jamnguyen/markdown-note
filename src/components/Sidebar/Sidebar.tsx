@@ -12,7 +12,6 @@ import {
   NoteListItemContent,
   DeleteIconButton,
   AboutButton,
-  PasswordButton,
   NoteTitleRow,
   NoteTitleEditIcon,
   SearchContainer,
@@ -22,9 +21,9 @@ import {
   NoteTitleTextField,
   RetroIconButton,
   BottomSection,
+  ThemePickerContainer,
 } from './Sidebar.styled';
 import {
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -35,9 +34,10 @@ import {
   TextField,
   ToggleButtonGroup,
   ToggleButton,
-  InputAdornment,
+  Typography,
+  IconButton,
 } from '@mui/material';
-import { Trash, Plus, PencilSimple, Sun, Moon, Desktop, MagnifyingGlass, X } from 'phosphor-react';
+import { Trash, Plus, PencilSimple, Sun, Moon, Desktop, X } from 'phosphor-react';
 
 export const Sidebar: React.FC<SidebarProps> = ({
   notes,
@@ -50,13 +50,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   mode,
   setMode,
   onUpdateTitle,
-  isEncrypted,
-  onPasswordSetup,
-  onPasswordManagement,
 }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState('');
@@ -86,21 +82,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const handleAboutClose = () => {
     setAboutDialogOpen(false);
-  };
-
-  const handlePasswordClick = () => {
-    if (isEncrypted) {
-      onPasswordManagement?.();
-    } else {
-      onPasswordSetup?.();
-    }
-  };
-
-  const toggleSearch = () => {
-    setSearchOpen(!searchOpen);
-    if (searchOpen) {
-      setSearchQuery('');
-    }
   };
 
   const handleTitleEdit = (id: string, title: string) => {
@@ -137,45 +118,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <SidebarContainer width={width}>
       <DragHandle onMouseDown={onDragHandleMouseDown} />
       <SidebarHeader>
-        <SidebarTitle variant='h4'>Markdown Notes</SidebarTitle>
+        <SidebarTitle>Markdown Notes</SidebarTitle>
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <RetroIconButton onClick={toggleSearch} size='small'>
-            <MagnifyingGlass size={16} weight='bold' />
-          </RetroIconButton>
           <RetroIconButton onClick={onCreate} size='small'>
             <Plus size={16} weight='bold' />
           </RetroIconButton>
         </Box>
       </SidebarHeader>
-      <SearchContainer className={searchOpen ? 'visible' : ''}>
-        <TextField
-          size='small'
-          fullWidth
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder='Search notes...'
-          sx={{
-            '& .MuiInputBase-root': {
-              height: 32,
-              fontSize: '0.875rem',
-            },
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <MagnifyingGlass size={14} />
-              </InputAdornment>
-            ),
-            endAdornment: searchQuery && (
-              <InputAdornment position='end'>
-                <RetroIconButton size='small' onClick={() => setSearchQuery('')}>
-                  <X size={14} />
-                </RetroIconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </SearchContainer>
+      {notes.length > 0 && (
+        <SearchContainer className='visible'>
+          <TextField
+            size='small'
+            fullWidth
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder='Search notes...'
+            variant='standard'
+            sx={{
+              '& .MuiInputBase-root': {
+                height: 32,
+                fontSize: '0.875rem',
+              },
+            }}
+            InputProps={{}}
+          />
+        </SearchContainer>
+      )}
       <ScrollArea>
         <NotesList>
           {sortedAndFilteredNotes.map((note) => (
@@ -183,24 +151,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
               key={note.id}
               disablePadding
               secondaryAction={
-                <ActionButtonsContainer className='action-buttons'>
-                  <NoteTitleEditIcon
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleTitleEdit(note.id, note.title || 'Untitled');
-                    }}>
-                    <PencilSimple size={14} />
-                  </NoteTitleEditIcon>
-                  <DeleteIconButton
-                    edge='end'
-                    aria-label='delete'
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteClick(note.id);
-                    }}>
-                    <Trash size={16} weight='bold' />
-                  </DeleteIconButton>
-                </ActionButtonsContainer>
+                editingId === note.id ? null : (
+                  <ActionButtonsContainer className='action-buttons'>
+                    <NoteTitleEditIcon
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleTitleEdit(note.id, note.title || 'Untitled');
+                      }}>
+                      <PencilSimple size={14} />
+                    </NoteTitleEditIcon>
+                    <DeleteIconButton
+                      edge='end'
+                      aria-label='delete'
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(note.id);
+                      }}>
+                      <Trash size={16} weight='bold' />
+                    </DeleteIconButton>
+                  </ActionButtonsContainer>
+                )
               }>
               <NoteListItem selected={note.id === selectedNoteId} onClick={() => onSelect(note.id)}>
                 <NoteListItemContent>
@@ -230,83 +200,101 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </NotesList>
       </ScrollArea>
       <BottomSection>
-        <ToggleButtonGroup
-          value={mode}
-          exclusive
-          onChange={(_, value) => value && setMode(value)}
-          size='small'
-          sx={{
-            '& .MuiToggleButtonGroup-grouped': {
-              '&:not(:first-of-type)': {
-                borderRadius: 0,
-                borderLeft: 'none',
-              },
-              '&:first-of-type': {
-                borderTopRightRadius: 0,
-                borderBottomRightRadius: 0,
-              },
-              '&:last-of-type': {
-                borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0,
-              },
-            },
-            '& .MuiToggleButton-root': {
-              padding: (theme) => theme.spacing(1),
-              border: (theme) => `1px solid ${theme.palette.border}`,
-              backgroundColor: (theme) => theme.palette.background.paper,
-              color: (theme) => theme.palette.text.primary,
-              borderRadius: (theme) => theme.spacing(1.5),
-              fontFamily: (theme) => theme.typography.fontFamily,
-              transition: 'all 0.2s ease-in-out',
-              '&:hover': {
-                backgroundColor: (theme) => theme.palette.primary.main,
-                color: (theme) => theme.palette.primary.contrastText,
-                borderColor: (theme) => theme.palette.primary.main,
-                zIndex: 1,
-              },
-              '&.Mui-selected': {
-                backgroundColor: (theme) => theme.palette.primary.main,
-                color: (theme) => theme.palette.primary.contrastText,
-                borderColor: (theme) => theme.palette.primary.main,
-                zIndex: 1,
-                '&:hover': {
-                  backgroundColor: (theme) => theme.palette.primary.dark || theme.palette.primary.main,
+        <ThemePickerContainer>
+          <ToggleButtonGroup
+            value={mode}
+            exclusive
+            onChange={(_, value) => value && setMode(value)}
+            size='small'
+            sx={{
+              '& .MuiToggleButtonGroup-grouped': {
+                '&:not(:first-of-type)': {
+                  borderLeft: 'none',
+                },
+                '&:first-of-type': {
+                  borderRadius: 0,
+                },
+                '&:last-of-type': {
+                  borderRadius: 0,
                 },
               },
-            },
-          }}>
-          <ToggleButton value='light'>
-            <Sun size={16} />
-          </ToggleButton>
-          <ToggleButton value='dark'>
-            <Moon size={16} />
-          </ToggleButton>
-          <ToggleButton value='system'>
-            <Desktop size={16} />
-          </ToggleButton>
-        </ToggleButtonGroup>
-        <PasswordButton onClick={handlePasswordClick}>
-          {isEncrypted ? 'Change Password' : 'Add Password'}
-        </PasswordButton>
+              '& .MuiToggleButton-root': {
+                padding: (theme) => theme.spacing(1),
+                border: 'none',
+                backgroundColor: 'transparent',
+                color: (theme) => theme.palette.text.primary,
+                borderRadius: 0,
+                fontFamily: (theme) => theme.typography.fontFamily,
+                transition: 'all 0.2s ease-in-out',
+                '&:hover': {
+                  backgroundColor: (theme) => `${theme.palette.primary.main}20`,
+                  color: (theme) => theme.palette.primary.main,
+                },
+                '&.Mui-selected': {
+                  backgroundColor: (theme) => theme.palette.primary.main,
+                  color: (theme) => theme.palette.primary.contrastText,
+                  '&:hover': {
+                    backgroundColor: (theme) => theme.palette.primary.dark || theme.palette.primary.main,
+                  },
+                },
+              },
+            }}>
+            <ToggleButton value='light'>
+              <Sun size={16} />
+            </ToggleButton>
+            <ToggleButton value='dark'>
+              <Moon size={16} />
+            </ToggleButton>
+            <ToggleButton value='system'>
+              <Desktop size={16} />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </ThemePickerContainer>
+
         <AboutButton onClick={handleAboutClick}>About</AboutButton>
       </BottomSection>
       <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
-        <DialogTitle>Delete Note?</DialogTitle>
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography>Delete Note?</Typography>
+          <IconButton
+            onClick={handleCancelDelete}
+            size='small'
+            sx={{
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.05)',
+              },
+            }}>
+            <X size={20} />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
             Are you sure you want to delete this note? This action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancelDelete}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} color='error' variant='contained'>
+          <Button onClick={handleConfirmDelete} color='warning' variant='contained'>
             Delete
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={aboutDialogOpen} onClose={handleAboutClose}>
-        <DialogTitle>About Markdown Note</DialogTitle>
+        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant='h5' sx={{ fontFamily: '"Cal Sans", system-ui, -apple-system, sans-serif' }}>
+            About Markdown Note
+          </Typography>
+          <IconButton
+            onClick={handleAboutClose}
+            size='small'
+            sx={{
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.05)',
+              },
+            }}>
+            <X size={20} />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText component='div' sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Box>
@@ -324,15 +312,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 title='sticky notes icons'
                 target='_blank'
                 rel='noopener noreferrer'
-                style={{ color: 'inherit', textDecoration: 'none' }}>
+                style={{
+                  color: 'inherit',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease-in-out',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#7C3AED';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'inherit';
+                }}>
                 Sticky notes icons created by Freepik - Flaticon
               </a>
             </Box>
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleAboutClose}>Close</Button>
-        </DialogActions>
       </Dialog>
     </SidebarContainer>
   );

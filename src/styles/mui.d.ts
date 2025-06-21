@@ -18,6 +18,9 @@ declare module '@mui/material/styles' {
   }
   interface PaletteOptions {
     border?: string;
+    action?: {
+      hover?: string;
+    };
     retro?: {
       amber?: string;
       pink?: string;
