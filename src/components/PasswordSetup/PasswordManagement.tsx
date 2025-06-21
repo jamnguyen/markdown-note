@@ -11,7 +11,132 @@ import {
   Alert,
   LinearProgress,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Lock, Eye, EyeSlash, Trash } from 'phosphor-react';
+
+// Retro styled components (reused from PasswordSetup)
+const RetroDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialog-paper': {
+    backgroundColor: theme.palette.background.paper,
+    border: `${theme.spacing(1)}px solid ${theme.palette.primary.main}`,
+    borderRadius: theme.spacing(2),
+    boxShadow: theme.shadows[3],
+    padding: theme.spacing(2),
+  },
+}));
+
+const RetroDialogTitle = styled(DialogTitle)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+  margin: theme.spacing(-2, -2, 2, -2),
+  padding: theme.spacing(3),
+  textAlign: 'center',
+  borderRadius: `${theme.spacing(2)}px ${theme.spacing(2)}px 0 0`,
+  fontFamily: theme.typography.fontFamily,
+  fontWeight: theme.typography.h4.fontWeight,
+  fontSize: theme.typography.h4.fontSize,
+  letterSpacing: theme.typography.h4.letterSpacing,
+  textTransform: theme.typography.h4.textTransform,
+}));
+
+const RetroAlert = styled(Alert)(({ theme }) => ({
+  border: `${theme.spacing(0.5)}px solid`,
+  borderRadius: theme.spacing(1),
+  fontFamily: theme.typography.fontFamily,
+  '&.MuiAlert-standardInfo': {
+    backgroundColor: theme.palette.retro.cream,
+    borderColor: theme.palette.info.main,
+    color: theme.palette.text.primary,
+  },
+  '&.MuiAlert-standardError': {
+    backgroundColor: theme.palette.retro.pink,
+    borderColor: theme.palette.error.main,
+    color: theme.palette.primary.contrastText,
+  },
+}));
+
+const RetroTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiInputBase-root': {
+    backgroundColor: theme.palette.background.default,
+    border: `${theme.spacing(0.5)}px solid ${theme.palette.border}`,
+    borderRadius: theme.spacing(1),
+    fontFamily: theme.typography.fontFamily,
+    '&:hover': {
+      borderColor: theme.palette.primary.main,
+    },
+    '&.Mui-focused': {
+      borderColor: theme.palette.primary.main,
+      boxShadow: `0 0 0 ${theme.spacing(0.5)}px ${theme.palette.primary.main}40`,
+    },
+  },
+  '& .MuiInputLabel-root': {
+    fontFamily: theme.typography.fontFamily,
+    fontWeight: theme.typography.subtitle1.fontWeight,
+    letterSpacing: theme.typography.subtitle1.letterSpacing,
+  },
+  '& .MuiFormHelperText-root': {
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.typography.caption.fontSize,
+  },
+}));
+
+const RetroButton = styled(Button)(({ theme }) => ({
+  borderRadius: theme.spacing(1),
+  padding: theme.spacing(2, 4),
+  border: `${theme.spacing(0.5)}px solid`,
+  fontFamily: theme.typography.fontFamily,
+  fontWeight: theme.typography.button.fontWeight,
+  fontSize: theme.typography.button.fontSize,
+  letterSpacing: theme.typography.button.letterSpacing,
+  textTransform: theme.typography.button.textTransform,
+  boxShadow: theme.shadows[1],
+  transition: 'all 0.2s ease-in-out',
+  '&:hover': {
+    transform: 'translate(-1px, -1px)',
+    boxShadow: theme.shadows[2],
+  },
+  '&:active': {
+    transform: 'translate(0, 0)',
+    boxShadow: theme.shadows[1],
+  },
+  '&.MuiButton-contained': {
+    backgroundColor: theme.palette.primary.main,
+    borderColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark || theme.palette.primary.main,
+    },
+  },
+  '&.MuiButton-outlined': {
+    backgroundColor: theme.palette.background.paper,
+    borderColor: theme.palette.text.secondary,
+    color: theme.palette.text.primary,
+    '&:hover': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}));
+
+const RetroProgressBar = styled(LinearProgress)(({ theme }) => ({
+  height: theme.spacing(2),
+  borderRadius: theme.spacing(1),
+  backgroundColor: theme.palette.background.default,
+  '& .MuiLinearProgress-bar': {
+    borderRadius: theme.spacing(1),
+  },
+}));
+
+const IconContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(2),
+}));
+
+const ModeToggleContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(1),
+  marginBottom: theme.spacing(2),
+}));
 
 interface PasswordManagementProps {
   open: boolean;
@@ -90,34 +215,36 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
   }, [open]);
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
-      <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Lock size={24} />
-        Password Management
-      </DialogTitle>
+    <RetroDialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
+      <RetroDialogTitle>
+        <IconContainer>
+          <Lock size={24} />
+          Password Management
+        </IconContainer>
+      </RetroDialogTitle>
 
       <DialogContent>
-        <Alert severity='info' sx={{ mb: 2 }}>
+        <RetroAlert severity='info' sx={{ mb: 2 }}>
           {mode === 'change'
             ? 'Enter your current password and set a new password for your encrypted notes.'
             : 'Enter your current password to remove encryption. Your notes will be stored in plain text.'}
-        </Alert>
+        </RetroAlert>
 
         {error && (
-          <Alert severity='error' sx={{ mb: 2 }}>
+          <RetroAlert severity='error' sx={{ mb: 2 }}>
             {error}
-          </Alert>
+          </RetroAlert>
         )}
 
-        <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-          <Button
+        <ModeToggleContainer>
+          <RetroButton
             variant={mode === 'change' ? 'contained' : 'outlined'}
             onClick={() => setMode('change')}
             disabled={loading}
             size='small'>
             Change Password
-          </Button>
-          <Button
+          </RetroButton>
+          <RetroButton
             variant={mode === 'remove' ? 'contained' : 'outlined'}
             color='error'
             onClick={() => setMode('remove')}
@@ -125,11 +252,11 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
             size='small'
             startIcon={<Trash size={16} />}>
             Remove Password
-          </Button>
-        </Box>
+          </RetroButton>
+        </ModeToggleContainer>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <TextField
+          <RetroTextField
             label='Current Password'
             type={showCurrentPassword ? 'text' : 'password'}
             value={currentPassword}
@@ -140,16 +267,18 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
             disabled={loading}
             InputProps={{
               endAdornment: (
-                <Button onClick={() => setShowCurrentPassword(!showCurrentPassword)} sx={{ minWidth: 'auto', p: 1 }}>
+                <RetroButton
+                  onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                  sx={{ minWidth: 'auto', p: 1 }}>
                   {showCurrentPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
-                </Button>
+                </RetroButton>
               ),
             }}
           />
 
           {mode === 'change' && (
             <>
-              <TextField
+              <RetroTextField
                 label='New Password'
                 type={showNewPassword ? 'text' : 'password'}
                 value={newPassword}
@@ -159,9 +288,9 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
                 disabled={loading}
                 InputProps={{
                   endAdornment: (
-                    <Button onClick={() => setShowNewPassword(!showNewPassword)} sx={{ minWidth: 'auto', p: 1 }}>
+                    <RetroButton onClick={() => setShowNewPassword(!showNewPassword)} sx={{ minWidth: 'auto', p: 1 }}>
                       {showNewPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
-                    </Button>
+                    </RetroButton>
                   ),
                 }}
               />
@@ -171,12 +300,10 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
                   <Typography variant='caption' color='text.secondary'>
                     Password Strength
                   </Typography>
-                  <LinearProgress
+                  <RetroProgressBar
                     variant='determinate'
                     value={passwordStrength}
                     sx={{
-                      height: 6,
-                      borderRadius: 3,
                       '& .MuiLinearProgress-bar': {
                         backgroundColor:
                           passwordStrength < 50
@@ -193,7 +320,7 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
                 </Box>
               )}
 
-              <TextField
+              <RetroTextField
                 label='Confirm New Password'
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={confirmPassword}
@@ -205,11 +332,11 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
                 helperText={confirmPassword.length > 0 && !passwordsMatch ? 'Passwords do not match' : ''}
                 InputProps={{
                   endAdornment: (
-                    <Button
+                    <RetroButton
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       sx={{ minWidth: 'auto', p: 1 }}>
                       {showConfirmPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
-                    </Button>
+                    </RetroButton>
                   ),
                 }}
               />
@@ -225,7 +352,7 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
 
         {loading && (
           <Box sx={{ mt: 2 }}>
-            <LinearProgress />
+            <RetroProgressBar />
             <Typography variant='caption' color='text.secondary' sx={{ mt: 1 }}>
               {mode === 'change' ? 'Changing password...' : 'Removing encryption...'}
             </Typography>
@@ -234,17 +361,17 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} disabled={loading}>
+        <RetroButton onClick={onClose} disabled={loading} variant='outlined'>
           Cancel
-        </Button>
-        <Button
+        </RetroButton>
+        <RetroButton
           onClick={handleSubmit}
           variant='contained'
           disabled={!canSubmit || loading}
           color={mode === 'remove' ? 'error' : 'primary'}>
           {mode === 'change' ? 'Change Password' : 'Remove Password'}
-        </Button>
+        </RetroButton>
       </DialogActions>
-    </Dialog>
+    </RetroDialog>
   );
 };

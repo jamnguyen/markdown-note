@@ -1,69 +1,96 @@
 import type { PaletteOptions } from '@mui/material';
 
+// Retro color palette inspired by 80s/90s computer interfaces
 const palette: PaletteOptions = {
   mode: 'light',
   primary: {
-    main: '#6C63FF',
-    contrastText: '#fff',
+    main: '#FF6B35', // Retro orange
+    contrastText: '#FFFBF0',
   },
   secondary: {
-    main: '#FFD166',
-    contrastText: '#222',
+    main: '#00D4AA', // Retro teal
+    contrastText: '#1A1A1A',
   },
   background: {
-    default: '#F8F8F5',
-    paper: '#FFFDF6',
+    default: '#FFFBF0', // Warm cream
+    paper: '#FFF8E7', // Light cream
   },
   text: {
-    primary: '#222',
-    secondary: '#6C63FF',
+    primary: '#2D2D2D', // Dark charcoal
+    secondary: '#8B4513', // Retro brown
   },
   success: {
-    main: '#A3E635',
+    main: '#32CD32', // Retro lime green
   },
   error: {
-    main: '#FF6B6B',
+    main: '#FF4757', // Retro red
   },
   info: {
-    main: '#56CCF2',
+    main: '#3742FA', // Retro blue
   },
   warning: {
-    main: '#FFD166',
+    main: '#FFA502', // Retro amber
   },
-  border: '#E0E0E0',
+  // Custom retro colors
+  retro: {
+    amber: '#FFA502',
+    pink: '#FF3838',
+    cyan: '#00D4AA',
+    purple: '#8E44AD',
+    green: '#32CD32',
+    blue: '#3742FA',
+    cream: '#FFFBF0',
+    beige: '#F5F5DC',
+    brown: '#8B4513',
+    shadow: 'rgba(0, 0, 0, 0.15)',
+  },
+  border: '#E8E8E8',
 };
 
 const darkPalette: PaletteOptions = {
   mode: 'dark',
   primary: {
-    main: '#6C63FF',
-    contrastText: '#fff',
+    main: '#FF6B35', // Retro orange
+    contrastText: '#1A1A1A',
   },
   secondary: {
-    main: '#FFD166',
-    contrastText: '#222',
+    main: '#00D4AA', // Retro teal
+    contrastText: '#1A1A1A',
   },
   background: {
-    default: '#18181b',
-    paper: '#232326',
+    default: '#1A1A1A', // Dark charcoal
+    paper: '#2D2D2D', // Medium charcoal
   },
   text: {
-    primary: '#f3f3f3',
-    secondary: '#A3A3FF',
+    primary: '#FFFBF0', // Warm cream
+    secondary: '#FFA502', // Retro amber
   },
   success: {
-    main: '#A3E635',
+    main: '#32CD32', // Retro lime green
   },
   error: {
-    main: '#FF6B6B',
+    main: '#FF4757', // Retro red
   },
   info: {
-    main: '#56CCF2',
+    main: '#3742FA', // Retro blue
   },
   warning: {
-    main: '#FFD166',
+    main: '#FFA502', // Retro amber
   },
-  border: '#33343a',
+  // Custom retro colors for dark mode
+  retro: {
+    amber: '#FFA502',
+    pink: '#FF3838',
+    cyan: '#00D4AA',
+    purple: '#8E44AD',
+    green: '#32CD32',
+    blue: '#3742FA',
+    cream: '#FFFBF0',
+    beige: '#F5F5DC',
+    brown: '#8B4513',
+    shadow: 'rgba(0, 0, 0, 0.4)',
+  },
+  border: '#404040',
 };
 
 export default palette;

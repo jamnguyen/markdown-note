@@ -20,6 +20,8 @@ import {
   NoteListItemWrapper,
   ActionButtonsContainer,
   NoteTitleTextField,
+  RetroIconButton,
+  BottomSection,
 } from './Sidebar.styled';
 import {
   IconButton,
@@ -136,13 +138,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <DragHandle onMouseDown={onDragHandleMouseDown} />
       <SidebarHeader>
         <SidebarTitle variant='h4'>Markdown Notes</SidebarTitle>
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <IconButton color='primary' onClick={toggleSearch} size='small' sx={{ padding: '4px' }}>
-            <MagnifyingGlass size={14} weight='bold' />
-          </IconButton>
-          <IconButton color='primary' onClick={onCreate} size='small' sx={{ padding: '4px' }}>
-            <Plus size={14} weight='bold' />
-          </IconButton>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <RetroIconButton onClick={toggleSearch} size='small'>
+            <MagnifyingGlass size={16} weight='bold' />
+          </RetroIconButton>
+          <RetroIconButton onClick={onCreate} size='small'>
+            <Plus size={16} weight='bold' />
+          </RetroIconButton>
         </Box>
       </SidebarHeader>
       <SearchContainer className={searchOpen ? 'visible' : ''}>
@@ -166,9 +168,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             ),
             endAdornment: searchQuery && (
               <InputAdornment position='end'>
-                <IconButton size='small' onClick={() => setSearchQuery('')} sx={{ padding: '2px' }}>
-                  <X size={12} />
-                </IconButton>
+                <RetroIconButton size='small' onClick={() => setSearchQuery('')}>
+                  <X size={14} />
+                </RetroIconButton>
               </InputAdornment>
             ),
           }}
@@ -187,7 +189,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       e.stopPropagation();
                       handleTitleEdit(note.id, note.title || 'Untitled');
                     }}>
-                    <PencilSimple size={12} />
+                    <PencilSimple size={14} />
                   </NoteTitleEditIcon>
                   <DeleteIconButton
                     edge='end'
@@ -196,7 +198,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       e.stopPropagation();
                       handleDeleteClick(note.id);
                     }}>
-                    <Trash size={14} weight='bold' />
+                    <Trash size={16} weight='bold' />
                   </DeleteIconButton>
                 </ActionButtonsContainer>
               }>
@@ -227,7 +229,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ))}
         </NotesList>
       </ScrollArea>
-      <Box sx={{ mt: 'auto', p: 2, display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+      <BottomSection>
         <ToggleButtonGroup
           value={mode}
           exclusive
@@ -235,24 +237,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
           size='small'
           sx={{
             '& .MuiToggleButton-root': {
-              padding: '4px',
+              padding: (theme) => theme.spacing(1),
+              border: (theme) => `${theme.spacing(0.25)}px solid ${theme.palette.border}`,
+              backgroundColor: (theme) => theme.palette.background.default,
+              color: (theme) => theme.palette.text.primary,
+              borderRadius: (theme) => theme.spacing(0.5),
+              fontFamily: (theme) => theme.typography.fontFamily,
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.primary.main,
+                color: (theme) => theme.palette.primary.contrastText,
+                borderColor: (theme) => theme.palette.primary.main,
+                transform: 'scale(1.05)',
+              },
+              '&.Mui-selected': {
+                backgroundColor: (theme) => theme.palette.primary.main,
+                color: (theme) => theme.palette.primary.contrastText,
+                borderColor: (theme) => theme.palette.primary.main,
+                boxShadow: (theme) => theme.shadows[1],
+              },
             },
           }}>
           <ToggleButton value='light'>
-            <Sun size={14} />
+            <Sun size={16} />
           </ToggleButton>
           <ToggleButton value='dark'>
-            <Moon size={14} />
+            <Moon size={16} />
           </ToggleButton>
           <ToggleButton value='system'>
-            <Desktop size={14} />
+            <Desktop size={16} />
           </ToggleButton>
         </ToggleButtonGroup>
         <PasswordButton onClick={handlePasswordClick}>
           {isEncrypted ? 'Change Password' : 'Add Password'}
         </PasswordButton>
         <AboutButton onClick={handleAboutClick}>About</AboutButton>
-      </Box>
+      </BottomSection>
       <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
         <DialogTitle>Delete Note?</DialogTitle>
         <DialogContent>
