@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
-import NotesPage from './pages/NotesPage';
+import { NotesPage } from './pages/NotesPage';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { createAppTheme } from './styles/theme';
 

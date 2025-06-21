@@ -10,7 +10,7 @@ autoUpdater.autoInstallOnAppQuit = true;
 let mainWindow: BrowserWindow | null = null;
 
 // Update announcement function
-function announceUpdate(type: string, info?: any) {
+function announceUpdate(type: string, info?: unknown) {
   if (mainWindow) {
     mainWindow.webContents.send('update-event', { type, info });
   }

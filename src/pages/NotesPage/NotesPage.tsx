@@ -1,23 +1,29 @@
 import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import type { RootState, AppDispatch, Note } from '../../store';
+import type { RootState, AppDispatch } from '../../store';
 import { setNotes, createNote, updateNote, deleteNote, selectNote } from '../../store';
 import notesDb from '../../db/notesDb';
 import { Layout } from '../../components/Layout';
 import { Sidebar } from '../../components/Sidebar';
 import { NoteEditor } from '../../components/NoteEditor';
 import { NoteViewer } from '../../components/NoteViewer';
-import { MainArea, EmptyState } from './NotesPage.styled';
+import { MainArea, EmptyState, EditorColumn } from './NotesPage.styled';
 import { Typography } from '@mui/material';
 
-export const NotesPage: React.FC = () => {
+type ThemeMode = 'light' | 'dark' | 'system';
+
+interface NotesPageProps {
+  mode: ThemeMode;
+  setMode: (mode: ThemeMode) => void;
+}
+
+export const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {
   const dispatch = useDispatch<AppDispatch>();
   const notes = useSelector((state: RootState) => state.notes.notes);
   const selectedNoteId = useSelector((state: RootState) => state.notes.selectedNoteId);
   const selectedNote = notes.find((n) => n.id === selectedNoteId) || null;
   const [sidebarWidth, setSidebarWidth] = useState(280);
   const dragging = useRef(false);
-  const [mode, setMode] = useState('light');
 
   // Load notes from DB on mount
   useEffect(() => {
@@ -47,15 +53,6 @@ export const NotesPage: React.FC = () => {
       dispatch(selectNote(id));
     },
     [dispatch],
-  );
-
-  const handleTitleChange = useCallback(
-    (title: string) => {
-      if (selectedNote) {
-        dispatch(updateNote({ id: selectedNote.id, title, content: selectedNote.content }));
-      }
-    },
-    [dispatch, selectedNote],
   );
 
   const handleContentChange = useCallback(

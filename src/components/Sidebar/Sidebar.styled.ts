@@ -88,7 +88,7 @@ export const NoteTitleEditIcon = styled('div')(({ theme }) => ({
   },
 }));
 
-export const NoteListItemContent = styled('div')(({ theme }) => ({
+export const NoteListItemContent = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,

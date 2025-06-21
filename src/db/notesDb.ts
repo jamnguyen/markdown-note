@@ -32,8 +32,9 @@ const notesDb: NotesDb = {
     await this.saveNotes(data.notes);
   },
 
-  async migrateData(notes: Note[], fromVersion: number): Promise<Note[]> {
-    let migratedNotes = [...notes];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async migrateData(notes: Note[], _fromVersion?: number): Promise<Note[]> {
+    const migratedNotes = [...notes];
 
     // Add migration logic here when needed
     // Example:

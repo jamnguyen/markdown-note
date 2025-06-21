@@ -21,7 +21,6 @@ import {
   NoteTitleTextField,
 } from './Sidebar.styled';
 import {
-  ListItem,
   IconButton,
   Dialog,
   DialogTitle,
