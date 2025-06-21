@@ -236,25 +236,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
           onChange={(_, value) => value && setMode(value)}
           size='small'
           sx={{
+            '& .MuiToggleButtonGroup-grouped': {
+              '&:not(:first-of-type)': {
+                borderRadius: 0,
+                borderLeft: 'none',
+              },
+              '&:first-of-type': {
+                borderTopRightRadius: 0,
+                borderBottomRightRadius: 0,
+              },
+              '&:last-of-type': {
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+              },
+            },
             '& .MuiToggleButton-root': {
               padding: (theme) => theme.spacing(1),
-              border: (theme) => `${theme.spacing(0.25)}px solid ${theme.palette.border}`,
-              backgroundColor: (theme) => theme.palette.background.default,
+              border: (theme) => `1px solid ${theme.palette.border}`,
+              backgroundColor: (theme) => theme.palette.background.paper,
               color: (theme) => theme.palette.text.primary,
-              borderRadius: (theme) => theme.spacing(0.5),
+              borderRadius: (theme) => theme.spacing(1.5),
               fontFamily: (theme) => theme.typography.fontFamily,
               transition: 'all 0.2s ease-in-out',
               '&:hover': {
                 backgroundColor: (theme) => theme.palette.primary.main,
                 color: (theme) => theme.palette.primary.contrastText,
                 borderColor: (theme) => theme.palette.primary.main,
-                transform: 'scale(1.05)',
+                zIndex: 1,
               },
               '&.Mui-selected': {
                 backgroundColor: (theme) => theme.palette.primary.main,
                 color: (theme) => theme.palette.primary.contrastText,
                 borderColor: (theme) => theme.palette.primary.main,
-                boxShadow: (theme) => theme.shadows[1],
+                zIndex: 1,
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.primary.dark || theme.palette.primary.main,
+                },
               },
             },
           }}>

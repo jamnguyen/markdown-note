@@ -231,7 +231,7 @@ export const PasswordSetup: React.FC<PasswordSetupProps> = ({
         </IconContainer>
       </ModernDialogTitle>
 
-      <DialogContent sx={{ p: 2 }}>
+      <DialogContent sx={{ p: 3 }}>
         {isSetupMode && (
           <ModernAlert severity='info' sx={{ mb: 2 }}>
             Your notes will be encrypted and only accessible with this password.

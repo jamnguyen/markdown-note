@@ -219,7 +219,7 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
         </IconContainer>
       </ModernDialogTitle>
 
-      <DialogContent sx={{ p: 2 }}>
+      <DialogContent sx={{ p: 3 }}>
         <ModernAlert severity='info' sx={{ mb: 2 }}>
           {mode === 'change'
             ? 'Enter your current password and set a new password for your encrypted notes.'
