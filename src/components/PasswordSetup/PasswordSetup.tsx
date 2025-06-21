@@ -28,7 +28,7 @@ const ModernDialog = styled(Dialog)(({ theme }) => ({
 const ModernDialogTitle = styled(DialogTitle)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.primary,
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   textAlign: 'left',
   borderBottom: `1px solid ${theme.palette.border}`,
   fontFamily: theme.typography.fontFamily,
@@ -78,7 +78,7 @@ const ModernTextField = styled(TextField)(({ theme }) => ({
 
 const ModernButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.spacing(1.5),
-  padding: theme.spacing(1.5, 3),
+  padding: theme.spacing(1, 2),
   fontFamily: theme.typography.fontFamily,
   fontWeight: theme.typography.button.fontWeight,
   fontSize: theme.typography.button.fontSize,
@@ -231,7 +231,7 @@ export const PasswordSetup: React.FC<PasswordSetupProps> = ({
         </IconContainer>
       </ModernDialogTitle>
 
-      <DialogContent sx={{ p: 3 }}>
+      <DialogContent sx={{ p: 2 }}>
         {isSetupMode && (
           <ModernAlert severity='info' sx={{ mb: 2 }}>
             Your notes will be encrypted and only accessible with this password.
@@ -359,7 +359,7 @@ export const PasswordSetup: React.FC<PasswordSetupProps> = ({
         )}
       </DialogContent>
 
-      <DialogActions sx={{ p: 3, pt: 0 }}>
+      <DialogActions sx={{ p: 2, pt: 0 }}>
         {!isUnlockMode && (
           <ModernButton onClick={onClose} disabled={loading} variant='outlined'>
             Cancel

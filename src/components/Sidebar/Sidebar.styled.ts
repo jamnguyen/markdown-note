@@ -22,7 +22,7 @@ export const SidebarHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   fontFamily: theme.typography.fontFamily,
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.primary,
@@ -64,7 +64,7 @@ export const ScrollArea = styled(SimpleBar)(({ theme }) => ({
 }));
 
 export const NotesList = styled(List)(({ theme }) => ({
-  padding: theme.spacing(2, 0),
+  padding: theme.spacing(1, 0),
   fontFamily: theme.typography.fontFamily,
 }));
 
@@ -72,11 +72,11 @@ export const NoteListItem = styled(ListItemButton)<{ selected: boolean }>(({ the
   backgroundColor: selected ? theme.palette.retro.purple : 'transparent',
   fontWeight: selected ? theme.typography.h6.fontWeight : theme.typography.body1.fontWeight,
   borderRadius: theme.spacing(1.5),
-  marginBottom: theme.spacing(1),
+  marginBottom: theme.spacing(0.5),
   fontFamily: theme.typography.fontFamily,
-  padding: theme.spacing(2, 3),
+  padding: theme.spacing(1.5, 2),
   border: selected ? `1px solid ${theme.palette.primary.main}` : `1px solid transparent`,
-  margin: theme.spacing(0.5, 2),
+  margin: theme.spacing(0.5, 1.5),
   boxShadow: 'none',
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
@@ -151,10 +151,10 @@ export const NoteSidebarTitle = styled(Typography)(({ theme }) => ({
 export const AboutButton = styled('button')(({ theme }) => ({
   background: 'none',
   border: `1px solid ${theme.palette.border}`,
-  padding: theme.spacing(1.5, 3),
-  fontSize: theme.typography.body2.fontSize,
+  padding: theme.spacing(1, 2),
+  fontSize: theme.typography.caption.fontSize,
   color: theme.palette.text.primary,
-  marginTop: theme.spacing(1),
+  marginTop: theme.spacing(0.5),
   cursor: 'pointer',
   textDecoration: 'none',
   transition: 'all 0.2s ease-in-out',
@@ -180,10 +180,10 @@ export const AboutButton = styled('button')(({ theme }) => ({
 export const PasswordButton = styled('button')(({ theme }) => ({
   background: 'none',
   border: `1px solid ${theme.palette.secondary.main}`,
-  padding: theme.spacing(1.5, 3),
-  fontSize: theme.typography.body2.fontSize,
+  padding: theme.spacing(1, 2),
+  fontSize: theme.typography.caption.fontSize,
   color: theme.palette.secondary.main,
-  marginTop: theme.spacing(1),
+  marginTop: theme.spacing(0.5),
   cursor: 'pointer',
   textDecoration: 'none',
   transition: 'all 0.2s ease-in-out',
@@ -207,14 +207,14 @@ export const PasswordButton = styled('button')(({ theme }) => ({
 }));
 
 export const SearchContainer = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 3, 2),
+  padding: theme.spacing(0, 2, 1),
   overflow: 'hidden',
   transition: 'max-height 0.2s ease-in-out, opacity 0.2s ease-in-out',
   maxHeight: 0,
   opacity: 0,
   backgroundColor: theme.palette.background.paper,
   '&.visible': {
-    maxHeight: theme.spacing(12),
+    maxHeight: theme.spacing(10),
     opacity: 1,
   },
   '& .MuiInputBase-root': {
@@ -283,11 +283,11 @@ export const RetroIconButton = styled(IconButton)(({ theme }) => ({
 
 export const BottomSection = styled(Box)(({ theme }) => ({
   marginTop: 'auto',
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: theme.spacing(2),
+  gap: theme.spacing(1),
   backgroundColor: theme.palette.background.paper,
   borderTop: `1px solid ${theme.palette.border}`,
 }));

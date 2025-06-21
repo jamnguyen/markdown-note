@@ -1,3 +1,3 @@
-// Modern spacing system - using 8px base unit for comfortable, spacious feel
-const spacing = 8;
+// Compact spacing system - using 6px base unit for tighter, more efficient layout
+const spacing = 6;
 export { spacing };
