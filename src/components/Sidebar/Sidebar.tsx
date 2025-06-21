@@ -12,6 +12,7 @@ import {
   NoteListItemContent,
   DeleteIconButton,
   CreditText,
+  AboutButton,
   NoteTitleRow,
   NoteTitleEditIcon,
   SearchContainer,
@@ -54,6 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingValue, setEditingValue] = useState('');
+  const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
 
   const handleDeleteClick = (id: string) => {
     setNoteToDelete(id);
@@ -71,6 +73,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const handleCancelDelete = () => {
     setDeleteDialogOpen(false);
     setNoteToDelete(null);
+  };
+
+  const handleAboutClick = () => {
+    setAboutDialogOpen(true);
+  };
+
+  const handleAboutClose = () => {
+    setAboutDialogOpen(false);
   };
 
   const toggleSearch = () => {
@@ -227,7 +237,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <Desktop size={14} />
           </ToggleButton>
         </ToggleButtonGroup>
-        <CreditText>Version {process.env.npm_package_version}</CreditText>
+        <AboutButton onClick={handleAboutClick}>About</AboutButton>
       </Box>
       <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
         <DialogTitle>Delete Note?</DialogTitle>
@@ -241,6 +251,36 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <Button onClick={handleConfirmDelete} color='error' variant='contained'>
             Delete
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={aboutDialogOpen} onClose={handleAboutClose}>
+        <DialogTitle>About Markdown Note</DialogTitle>
+        <DialogContent>
+          <DialogContentText component='div' sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box>
+              <strong>App Name:</strong> {__APP_NAME__}
+            </Box>
+            <Box>
+              <strong>Version:</strong> {__APP_VERSION__}
+            </Box>
+            <Box>
+              <strong>Author:</strong> Jam Nguyen
+            </Box>
+            <Box sx={{ mt: 2 }}>
+              <a
+                href='https://www.flaticon.com/free-icons/sticky-notes'
+                title='sticky notes icons'
+                target='_blank'
+                rel='noopener noreferrer'
+                style={{ color: 'inherit', textDecoration: 'none' }}>
+                Sticky notes icons created by Freepik - Flaticon
+              </a>
+            </Box>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAboutClose}>Close</Button>
         </DialogActions>
       </Dialog>
     </SidebarContainer>

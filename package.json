@@ -51,18 +51,21 @@
   "build": {
     "appId": "com.markdown-note.app",
     "productName": "Markdown Note",
+    "icon": "src/assets/logo.png",
     "publish": {
       "provider": "generic",
       "url": "https://your-website.com/downloads/latest"
     },
     "mac": {
       "category": "public.app-category.productivity",
+      "icon": "src/assets/logo.png",
       "target": [
         "dmg",
         "zip"
       ]
     },
     "win": {
+      "icon": "src/assets/logo.png",
       "target": [
         "nsis",
         "portable"

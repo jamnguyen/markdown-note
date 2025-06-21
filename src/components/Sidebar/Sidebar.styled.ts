@@ -138,6 +138,22 @@ export const CreditText = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),
 }));
 
+export const AboutButton = styled('button')(({ theme }) => ({
+  background: 'none',
+  border: 'none',
+  padding: 0,
+  fontSize: '0.75rem',
+  color: theme.palette.text.secondary,
+  marginTop: theme.spacing(1),
+  cursor: 'pointer',
+  textDecoration: 'none',
+  transition: 'color 0.2s ease-in-out',
+  fontFamily: theme.typography.fontFamily,
+  '&:hover': {
+    color: theme.palette.primary.main,
+  },
+}));
+
 export const SearchContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(0, 2, 2),
   overflow: 'hidden',

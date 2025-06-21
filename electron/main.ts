@@ -2,6 +2,11 @@ import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import fs from 'fs/promises';
+import { fileURLToPath } from 'url';
+
+// ES module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Configure auto-updater
 autoUpdater.autoDownload = false;
@@ -17,14 +22,21 @@ function announceUpdate(type: string, info?: unknown) {
 }
 
 function createWindow() {
+  // Icon path - use absolute path from project root
+  const iconPath = path.join(process.cwd(), 'src/assets/logo.png');
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    icon: iconPath,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
   });
+
+  // Disable DevTools warnings by not opening DevTools by default
+  // DevTools can still be opened manually with Cmd+Option+I
 
   // Data export/import handlers
   ipcMain.handle('export-data', async (_, data) => {
@@ -128,7 +140,8 @@ function createWindow() {
   // In development, load from Vite dev server
   if (process.env.VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
-    mainWindow.webContents.openDevTools();
+    // Don't auto-open DevTools to avoid autofill warnings
+    // mainWindow.webContents.openDevTools();
   } else {
     // In production, load the built index.html
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
