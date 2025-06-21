@@ -3,41 +3,24 @@ import type { SidebarProps } from './Sidebar.types';
 import {
   SidebarContainer,
   NotesList,
-  NoteListItem,
   DragHandle,
   SidebarHeader,
   SidebarTitle,
-  NoteSidebarTitle,
-  NoteMeta,
-  NoteListItemContent,
-  DeleteIconButton,
-  AboutButton,
-  NoteTitleRow,
-  NoteTitleEditIcon,
-  SearchContainer,
   ScrollArea,
-  NoteListItemWrapper,
-  ActionButtonsContainer,
-  NoteTitleTextField,
   RetroIconButton,
   BottomSection,
-  ThemePickerContainer,
+  AboutButton,
+  HeaderButtonsContainer,
 } from './Sidebar.styled';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  Box,
-  TextField,
-  ToggleButtonGroup,
-  ToggleButton,
-  Typography,
-  IconButton,
-} from '@mui/material';
-import { Trash, Plus, PencilSimple, Sun, Moon, Desktop, X } from 'phosphor-react';
+import { Plus } from 'phosphor-react';
+import { ThemePicker } from './ThemePicker';
+import { SearchBar } from './SearchBar';
+import { NoteListItem } from './NoteListItem';
+import { ConfirmDialog } from './ConfirmDialog';
+import { AboutDialog } from './AboutDialog';
+
+declare const __APP_NAME__: string;
+declare const __APP_VERSION__: string;
 
 export const Sidebar: React.FC<SidebarProps> = ({
   notes,
@@ -89,28 +72,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
     setEditingValue(title);
   };
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditingValue(e.target.value);
+  const handleTitleChange = (value: string) => {
+    setEditingValue(value);
   };
 
-  const handleTitleBlur = (id: string) => {
+  const handleTitleSave = (id: string) => {
     if (onUpdateTitle && editingValue.trim() !== '') {
       onUpdateTitle(id, editingValue);
     }
     setEditingId(null);
   };
 
-  const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, id: string) => {
-    if (e.key === 'Enter') {
-      handleTitleBlur(id);
-    } else if (e.key === 'Escape') {
-      setEditingId(null);
-    }
+  const handleTitleCancel = () => {
+    setEditingId(null);
+  };
+
+  const handleThemeChange = (newMode: 'light' | 'dark' | 'system') => {
+    setMode(newMode);
   };
 
   const sortedAndFilteredNotes = useMemo(() => {
     return [...notes]
-      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
       .filter((note) => note.title.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [notes, searchQuery]);
 
@@ -119,216 +102,57 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <DragHandle onMouseDown={onDragHandleMouseDown} />
       <SidebarHeader>
         <SidebarTitle>Markdown Notes</SidebarTitle>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <HeaderButtonsContainer>
           <RetroIconButton onClick={onCreate} size='small'>
             <Plus size={16} weight='bold' />
           </RetroIconButton>
-        </Box>
+        </HeaderButtonsContainer>
       </SidebarHeader>
-      {notes.length > 0 && (
-        <SearchContainer className='visible'>
-          <TextField
-            size='small'
-            fullWidth
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder='Search notes...'
-            variant='standard'
-            sx={{
-              '& .MuiInputBase-root': {
-                height: 32,
-                fontSize: '0.875rem',
-              },
-            }}
-            InputProps={{}}
-          />
-        </SearchContainer>
-      )}
+
+      {notes.length > 0 && <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder='Search notes...' />}
+
       <ScrollArea>
         <NotesList>
           {sortedAndFilteredNotes.map((note) => (
-            <NoteListItemWrapper
+            <NoteListItem
               key={note.id}
-              disablePadding
-              secondaryAction={
-                editingId === note.id ? null : (
-                  <ActionButtonsContainer className='action-buttons'>
-                    <NoteTitleEditIcon
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleTitleEdit(note.id, note.title || 'Untitled');
-                      }}>
-                      <PencilSimple size={14} />
-                    </NoteTitleEditIcon>
-                    <DeleteIconButton
-                      edge='end'
-                      aria-label='delete'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteClick(note.id);
-                      }}>
-                      <Trash size={16} weight='bold' />
-                    </DeleteIconButton>
-                  </ActionButtonsContainer>
-                )
-              }>
-              <NoteListItem selected={note.id === selectedNoteId} onClick={() => onSelect(note.id)}>
-                <NoteListItemContent>
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <NoteTitleRow>
-                      {editingId === note.id ? (
-                        <NoteTitleTextField
-                          value={editingValue}
-                          onChange={handleTitleChange}
-                          onBlur={() => handleTitleBlur(note.id)}
-                          onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => handleTitleKeyDown(e, note.id)}
-                          size='small'
-                          autoFocus
-                          fullWidth
-                          variant='standard'
-                        />
-                      ) : (
-                        <NoteSidebarTitle>{note.title || 'Untitled'}</NoteSidebarTitle>
-                      )}
-                    </NoteTitleRow>
-                    <NoteMeta>{new Date(note.updatedAt).toLocaleString()}</NoteMeta>
-                  </Box>
-                </NoteListItemContent>
-              </NoteListItem>
-            </NoteListItemWrapper>
+              note={note}
+              isSelected={note.id === selectedNoteId}
+              isEditing={editingId === note.id}
+              editingValue={editingValue}
+              onSelect={onSelect}
+              onEdit={handleTitleEdit}
+              onDelete={handleDeleteClick}
+              onTitleChange={handleTitleChange}
+              onTitleSave={handleTitleSave}
+              onTitleCancel={handleTitleCancel}
+            />
           ))}
         </NotesList>
       </ScrollArea>
-      <BottomSection>
-        <ThemePickerContainer>
-          <ToggleButtonGroup
-            value={mode}
-            exclusive
-            onChange={(_, value) => value && setMode(value)}
-            size='small'
-            sx={{
-              '& .MuiToggleButtonGroup-grouped': {
-                '&:not(:first-of-type)': {
-                  borderLeft: 'none',
-                },
-                '&:first-of-type': {
-                  borderRadius: 0,
-                },
-                '&:last-of-type': {
-                  borderRadius: 0,
-                },
-              },
-              '& .MuiToggleButton-root': {
-                padding: (theme) => theme.spacing(1),
-                border: 'none',
-                backgroundColor: 'transparent',
-                color: (theme) => theme.palette.text.primary,
-                borderRadius: 0,
-                fontFamily: (theme) => theme.typography.fontFamily,
-                transition: 'all 0.2s ease-in-out',
-                '&:hover': {
-                  backgroundColor: (theme) => `${theme.palette.primary.main}20`,
-                  color: (theme) => theme.palette.primary.main,
-                },
-                '&.Mui-selected': {
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                  color: (theme) => theme.palette.primary.contrastText,
-                  '&:hover': {
-                    backgroundColor: (theme) => theme.palette.primary.dark || theme.palette.primary.main,
-                  },
-                },
-              },
-            }}>
-            <ToggleButton value='light'>
-              <Sun size={16} />
-            </ToggleButton>
-            <ToggleButton value='dark'>
-              <Moon size={16} />
-            </ToggleButton>
-            <ToggleButton value='system'>
-              <Desktop size={16} />
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </ThemePickerContainer>
 
+      <BottomSection>
+        <ThemePicker mode={mode} onChange={handleThemeChange} />
         <AboutButton onClick={handleAboutClick}>About</AboutButton>
       </BottomSection>
-      <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography>Delete Note?</Typography>
-          <IconButton
-            onClick={handleCancelDelete}
-            size='small'
-            sx={{
-              '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-              },
-            }}>
-            <X size={20} />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this note? This action cannot be undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleConfirmDelete} color='warning' variant='contained'>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
 
-      <Dialog open={aboutDialogOpen} onClose={handleAboutClose}>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant='h5' sx={{ fontFamily: '"Cal Sans", system-ui, -apple-system, sans-serif' }}>
-            About Markdown Note
-          </Typography>
-          <IconButton
-            onClick={handleAboutClose}
-            size='small'
-            sx={{
-              '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-              },
-            }}>
-            <X size={20} />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText component='div' sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Box>
-              <strong>App Name:</strong> {__APP_NAME__}
-            </Box>
-            <Box>
-              <strong>Version:</strong> {__APP_VERSION__}
-            </Box>
-            <Box>
-              <strong>Author:</strong> Jam Nguyen
-            </Box>
-            <Box sx={{ mt: 2 }}>
-              <a
-                href='https://www.flaticon.com/free-icons/sticky-notes'
-                title='sticky notes icons'
-                target='_blank'
-                rel='noopener noreferrer'
-                style={{
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  transition: 'color 0.2s ease-in-out',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#7C3AED';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'inherit';
-                }}>
-                Sticky notes icons created by Freepik - Flaticon
-              </a>
-            </Box>
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDialog
+        open={deleteDialogOpen}
+        title='Delete Note?'
+        message='Are you sure you want to delete this note? This action cannot be undone.'
+        confirmText='Delete'
+        confirmColor='warning'
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
+
+      <AboutDialog
+        open={aboutDialogOpen}
+        onClose={handleAboutClose}
+        appName={__APP_NAME__}
+        appVersion={__APP_VERSION__}
+        author='Jam Nguyen'
+      />
     </SidebarContainer>
   );
 };

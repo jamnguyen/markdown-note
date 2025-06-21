@@ -90,11 +90,12 @@ export const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {
 
   const handleUpdateTitle = useCallback(
     (id: string, title: string) => {
-      if (selectedNote) {
-        dispatch(updateNote({ id: selectedNote.id, title, content: selectedNote.content }));
+      const noteToUpdate = notes.find((n) => n.id === id);
+      if (noteToUpdate) {
+        dispatch(updateNote({ id, title, content: noteToUpdate.content }));
       }
     },
-    [dispatch, selectedNote],
+    [dispatch, notes],
   );
 
   return (

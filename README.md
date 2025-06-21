@@ -1,54 +1,83 @@
-# React + TypeScript + Vite
+# Markdown Note 📝
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Just a fun little markdown note app I built during my weekend coding sessions! 🎉
 
-Currently, two official plugins are available:
+> **This is a vibe coding project** - built with exploration and experimentation in mind, no strict planning, just coding and seeing where it goes!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Sometimes you just want to write some markdown without worrying about cloud sync, accounts, or any of that fancy stuff. This app keeps everything local on your machine - no internet required, no data collection, just you and your notes.
 
-## Expanding the ESLint configuration
+<img src="src/assets/logo.png" alt="Markdown Note App" width="250px">
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Quick Setup
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+You'll need Node.js (v18+) installed.
+
+```bash
+# Clone the repository
+git clone https://github.com/jamnguyen/markdown-note.git
+cd markdown-note
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Your browser should open to `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## How I Built This
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+This is a pet project built with an exploratory approach - starting simple and adding features as needed. Here's the tech stack:
+
+### Technology Stack
+
+- **React 19** - Modern React with hooks
+- **TypeScript** - Type safety and better development experience
+- **Material-UI** - Component library for consistent UI
+- **CodeMirror** - Code editor with markdown support
+- **Redux Toolkit** - State management
+- **LocalForage** - Local storage wrapper for IndexedDB
+- **Electron** - Cross-platform desktop application
+
+### Development Approach
+
+- Started with a basic note-taking interface
+- Gradually added markdown editing and preview
+- Implemented theming and customization options
+- Focused on local storage for privacy and simplicity
+- Embraced the vibe coding philosophy - no roadmaps, just building what feels right
+
+## Development
+
+### Available Commands
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run build:mac    # Build macOS app (.dmg)
+npm run build:win    # Build Windows app (.exe)
+npm run lint         # Run code linting
 ```
+
+## Building Desktop Apps
+
+### macOS
+
+```bash
+npm run build:mac
+```
+
+Creates a `.dmg` installer file for macOS.
+
+### Windows
+
+```bash
+npm run build:win
+```
+
+Creates a `.exe` installer and portable version for Windows.
+
+---
+
+Built by [Jam Nguyen](https://github.com/jamnguyen)
