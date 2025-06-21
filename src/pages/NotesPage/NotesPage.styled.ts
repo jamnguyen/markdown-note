@@ -5,7 +5,6 @@ export const MainArea = styled(Box)(({ theme }) => ({
   display: 'flex',
   flex: 1,
   gap: theme.spacing(2),
-  padding: theme.spacing(2),
   minWidth: 0,
 }));
 

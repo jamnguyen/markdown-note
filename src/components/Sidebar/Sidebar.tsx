@@ -12,6 +12,7 @@ import {
   NoteListItemContent,
   DeleteIconButton,
   AboutButton,
+  PasswordButton,
   NoteTitleRow,
   NoteTitleEditIcon,
   SearchContainer,
@@ -47,6 +48,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   mode,
   setMode,
   onUpdateTitle,
+  isEncrypted,
+  onPasswordSetup,
+  onPasswordManagement,
 }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
@@ -80,6 +84,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const handleAboutClose = () => {
     setAboutDialogOpen(false);
+  };
+
+  const handlePasswordClick = () => {
+    if (isEncrypted) {
+      onPasswordManagement?.();
+    } else {
+      onPasswordSetup?.();
+    }
   };
 
   const toggleSearch = () => {
@@ -236,6 +248,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <Desktop size={14} />
           </ToggleButton>
         </ToggleButtonGroup>
+        <PasswordButton onClick={handlePasswordClick}>
+          {isEncrypted ? 'Change Password' : 'Add Password'}
+        </PasswordButton>
         <AboutButton onClick={handleAboutClick}>About</AboutButton>
       </Box>
       <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>

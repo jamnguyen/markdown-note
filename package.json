@@ -21,6 +21,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@uiw/codemirror-theme-dracula": "^4.23.13",
     "@uiw/react-codemirror": "^4.23.13",
+    "crypto-js": "^4.2.0",
     "electron-updater": "^6.6.2",
     "localforage": "^1.10.0",
     "phosphor-react": "^1.4.1",
@@ -31,6 +32,7 @@
     "simplebar-react": "^3.3.1"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@typescript-eslint/eslint-plugin": "^8.34.0",

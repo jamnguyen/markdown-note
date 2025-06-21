@@ -4,6 +4,7 @@ export interface ExportData {
   version: number;
   notes: Note[];
   exportDate: string;
+  encrypted?: boolean;
 }
 
 export interface NotesDb {
