@@ -8,49 +8,49 @@ export const SidebarContainer = styled(Box, {
 })<{ width: number }>(({ theme, width }) => ({
   width,
   background: theme.palette.background.paper,
-  borderRight: `${theme.spacing(1)}px solid ${theme.palette.primary.main}`,
+  borderRight: `1px solid ${theme.palette.border}`,
   height: '100vh',
   minHeight: 0,
   display: 'flex',
   flexDirection: 'column',
   fontFamily: theme.typography.fontFamily,
   position: 'relative',
-  boxShadow: theme.shadows[2],
+  boxShadow: theme.shadows[1],
 }));
 
 export const SidebarHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: theme.spacing(4),
+  padding: theme.spacing(3),
   fontFamily: theme.typography.fontFamily,
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  borderBottom: `${theme.spacing(0.5)}px solid ${theme.palette.primary.dark || theme.palette.primary.main}`,
+  backgroundColor: theme.palette.background.paper,
+  color: theme.palette.text.primary,
+  borderBottom: `1px solid ${theme.palette.border}`,
 }));
 
 export const SidebarTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: theme.typography.h4.fontWeight,
-  fontSize: theme.typography.h4.fontSize,
-  letterSpacing: theme.typography.h4.letterSpacing,
-  textTransform: theme.typography.h4.textTransform,
+  fontWeight: theme.typography.h5.fontWeight,
+  fontSize: theme.typography.h5.fontSize,
+  letterSpacing: theme.typography.h5.letterSpacing,
   fontFamily: theme.typography.fontFamily,
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.text.primary,
 }));
 
 export const DragHandle = styled('div')(({ theme }) => ({
   position: 'absolute',
   top: 0,
-  right: -theme.spacing(1),
-  width: theme.spacing(1.5),
+  right: -theme.spacing(0.5),
+  width: theme.spacing(1),
   height: '100%',
   cursor: 'col-resize',
   zIndex: 2,
   backgroundColor: theme.palette.primary.main,
   opacity: 0,
   transition: 'opacity 0.2s ease-in-out',
+  borderRadius: theme.spacing(0.5),
   '&:hover': {
-    opacity: 1,
+    opacity: 0.7,
   },
 }));
 
@@ -69,22 +69,19 @@ export const NotesList = styled(List)(({ theme }) => ({
 }));
 
 export const NoteListItem = styled(ListItemButton)<{ selected: boolean }>(({ theme, selected }) => ({
-  borderLeft: selected
-    ? `${theme.spacing(1)}px solid ${theme.palette.primary.main}`
-    : `${theme.spacing(1)}px solid transparent`,
-  backgroundColor: selected ? theme.palette.retro.cream : 'transparent',
+  backgroundColor: selected ? theme.palette.retro.purple : 'transparent',
   fontWeight: selected ? theme.typography.h6.fontWeight : theme.typography.body1.fontWeight,
-  borderRadius: 0,
+  borderRadius: theme.spacing(1.5),
   marginBottom: theme.spacing(1),
   fontFamily: theme.typography.fontFamily,
-  padding: theme.spacing(3, 4),
-  border: `${theme.spacing(0.25)}px solid ${theme.palette.border}`,
+  padding: theme.spacing(2, 3),
+  border: selected ? `1px solid ${theme.palette.primary.main}` : `1px solid transparent`,
   margin: theme.spacing(0.5, 2),
-  boxShadow: selected ? theme.shadows[1] : 'none',
+  boxShadow: 'none',
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
-    backgroundColor: theme.palette.retro.beige,
-    transform: 'translateX(2px)',
+    backgroundColor: theme.palette.action.hover,
+    transform: 'translateY(-1px)',
     boxShadow: theme.shadows[1],
   },
 }));
@@ -101,16 +98,14 @@ export const NoteTitleEditIcon = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   color: theme.palette.text.secondary,
-  padding: theme.spacing(1),
-  borderRadius: theme.spacing(0.5),
-  border: `${theme.spacing(0.25)}px solid ${theme.palette.border}`,
-  backgroundColor: theme.palette.background.default,
+  padding: theme.spacing(0.5),
+  borderRadius: theme.spacing(1),
+  backgroundColor: 'transparent',
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    transform: 'scale(1.1)',
-    boxShadow: theme.shadows[1],
+    transform: 'scale(1.05)',
   },
 }));
 
@@ -130,17 +125,15 @@ export const NoteMeta = styled(Typography)(({ theme }) => ({
 }));
 
 export const DeleteIconButton = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(1),
+  padding: theme.spacing(0.5),
   color: theme.palette.error.main,
-  border: `${theme.spacing(0.25)}px solid ${theme.palette.error.main}`,
-  backgroundColor: theme.palette.background.default,
-  borderRadius: theme.spacing(0.5),
+  backgroundColor: 'transparent',
+  borderRadius: theme.spacing(1),
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
     backgroundColor: theme.palette.error.main,
     color: theme.palette.error.contrastText,
-    transform: 'scale(1.1)',
-    boxShadow: theme.shadows[1],
+    transform: 'scale(1.05)',
   },
 }));
 
@@ -157,10 +150,10 @@ export const NoteSidebarTitle = styled(Typography)(({ theme }) => ({
 
 export const AboutButton = styled('button')(({ theme }) => ({
   background: 'none',
-  border: `${theme.spacing(0.25)}px solid ${theme.palette.text.secondary}`,
-  padding: theme.spacing(1, 2),
-  fontSize: theme.typography.caption.fontSize,
-  color: theme.palette.text.secondary,
+  border: `1px solid ${theme.palette.border}`,
+  padding: theme.spacing(1.5, 3),
+  fontSize: theme.typography.body2.fontSize,
+  color: theme.palette.text.primary,
   marginTop: theme.spacing(1),
   cursor: 'pointer',
   textDecoration: 'none',
@@ -169,27 +162,26 @@ export const AboutButton = styled('button')(({ theme }) => ({
   fontWeight: theme.typography.button.fontWeight,
   letterSpacing: theme.typography.button.letterSpacing,
   textTransform: theme.typography.button.textTransform,
-  borderRadius: theme.spacing(0.5),
-  backgroundColor: theme.palette.background.default,
-  boxShadow: theme.shadows[1],
+  borderRadius: theme.spacing(1.5),
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: 'none',
   '&:hover': {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     borderColor: theme.palette.primary.main,
-    transform: 'translate(-1px, -1px)',
-    boxShadow: theme.shadows[2],
+    transform: 'translateY(-1px)',
+    boxShadow: theme.shadows[1],
   },
   '&:active': {
-    transform: 'translate(0, 0)',
-    boxShadow: theme.shadows[1],
+    transform: 'translateY(0)',
   },
 }));
 
 export const PasswordButton = styled('button')(({ theme }) => ({
   background: 'none',
-  border: `${theme.spacing(0.25)}px solid ${theme.palette.secondary.main}`,
-  padding: theme.spacing(1, 2),
-  fontSize: theme.typography.caption.fontSize,
+  border: `1px solid ${theme.palette.secondary.main}`,
+  padding: theme.spacing(1.5, 3),
+  fontSize: theme.typography.body2.fontSize,
   color: theme.palette.secondary.main,
   marginTop: theme.spacing(1),
   cursor: 'pointer',
@@ -199,24 +191,23 @@ export const PasswordButton = styled('button')(({ theme }) => ({
   fontWeight: theme.typography.button.fontWeight,
   letterSpacing: theme.typography.button.letterSpacing,
   textTransform: theme.typography.button.textTransform,
-  borderRadius: theme.spacing(0.5),
-  backgroundColor: theme.palette.background.default,
-  boxShadow: theme.shadows[1],
+  borderRadius: theme.spacing(1.5),
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: 'none',
   '&:hover': {
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText,
     borderColor: theme.palette.secondary.main,
-    transform: 'translate(-1px, -1px)',
-    boxShadow: theme.shadows[2],
+    transform: 'translateY(-1px)',
+    boxShadow: theme.shadows[1],
   },
   '&:active': {
-    transform: 'translate(0, 0)',
-    boxShadow: theme.shadows[1],
+    transform: 'translateY(0)',
   },
 }));
 
 export const SearchContainer = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 4, 2),
+  padding: theme.spacing(0, 3, 2),
   overflow: 'hidden',
   transition: 'max-height 0.2s ease-in-out, opacity 0.2s ease-in-out',
   maxHeight: 0,
@@ -227,14 +218,14 @@ export const SearchContainer = styled(Box)(({ theme }) => ({
     opacity: 1,
   },
   '& .MuiInputBase-root': {
-    borderRadius: theme.spacing(1),
-    backgroundColor: theme.palette.background.default,
-    border: `${theme.spacing(0.25)}px solid ${theme.palette.border}`,
+    borderRadius: theme.spacing(1.5),
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.border}`,
     fontFamily: theme.typography.fontFamily,
     '&.Mui-focused': {
-      borderRadius: theme.spacing(1),
+      borderRadius: theme.spacing(1.5),
       borderColor: theme.palette.primary.main,
-      boxShadow: `0 0 0 ${theme.spacing(0.5)}px ${theme.palette.primary.main}40`,
+      boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
     },
   },
 }));
@@ -268,37 +259,35 @@ export const NoteTitleTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-root': {
     fontSize: theme.typography.subtitle1.fontSize,
     fontFamily: theme.typography.fontFamily,
-    backgroundColor: theme.palette.background.default,
-    border: `${theme.spacing(0.25)}px solid ${theme.palette.primary.main}`,
-    borderRadius: theme.spacing(0.5),
+    backgroundColor: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.primary.main}`,
+    borderRadius: theme.spacing(1.5),
     '&.Mui-focused': {
-      boxShadow: `0 0 0 ${theme.spacing(0.5)}px ${theme.palette.primary.main}40`,
+      boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
     },
   },
 }));
 
 export const RetroIconButton = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(1),
-  border: `${theme.spacing(0.25)}px solid ${theme.palette.primary.main}`,
-  backgroundColor: theme.palette.background.default,
-  borderRadius: theme.spacing(0.5),
+  padding: theme.spacing(0.5),
+  backgroundColor: 'transparent',
+  borderRadius: theme.spacing(1),
   color: theme.palette.primary.main,
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    transform: 'scale(1.1)',
-    boxShadow: theme.shadows[1],
+    transform: 'scale(1.05)',
   },
 }));
 
 export const BottomSection = styled(Box)(({ theme }) => ({
   marginTop: 'auto',
-  padding: theme.spacing(4),
+  padding: theme.spacing(3),
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
   gap: theme.spacing(2),
   backgroundColor: theme.palette.background.paper,
-  borderTop: `${theme.spacing(0.25)}px solid ${theme.palette.border}`,
+  borderTop: `1px solid ${theme.palette.border}`,
 }));

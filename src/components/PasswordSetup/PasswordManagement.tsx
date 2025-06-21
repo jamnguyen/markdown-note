@@ -14,65 +14,61 @@ import {
 import { styled } from '@mui/material/styles';
 import { Lock, Eye, EyeSlash, Trash } from 'phosphor-react';
 
-// Retro styled components (reused from PasswordSetup)
-const RetroDialog = styled(Dialog)(({ theme }) => ({
+// Modern styled components (reused from PasswordSetup)
+const ModernDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
     backgroundColor: theme.palette.background.paper,
-    border: `${theme.spacing(1)}px solid ${theme.palette.primary.main}`,
     borderRadius: theme.spacing(2),
-    boxShadow: theme.shadows[3],
-    padding: theme.spacing(2),
+    boxShadow: theme.shadows[4],
+    padding: 0,
+    border: 'none',
   },
 }));
 
-const RetroDialogTitle = styled(DialogTitle)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  margin: theme.spacing(-2, -2, 2, -2),
+const ModernDialogTitle = styled(DialogTitle)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  color: theme.palette.text.primary,
   padding: theme.spacing(3),
-  textAlign: 'center',
-  borderRadius: `${theme.spacing(2)}px ${theme.spacing(2)}px 0 0`,
+  textAlign: 'left',
+  borderBottom: `1px solid ${theme.palette.border}`,
   fontFamily: theme.typography.fontFamily,
-  fontWeight: theme.typography.h4.fontWeight,
-  fontSize: theme.typography.h4.fontSize,
-  letterSpacing: theme.typography.h4.letterSpacing,
-  textTransform: theme.typography.h4.textTransform,
+  fontWeight: theme.typography.h5.fontWeight,
+  fontSize: theme.typography.h5.fontSize,
+  letterSpacing: theme.typography.h5.letterSpacing,
 }));
 
-const RetroAlert = styled(Alert)(({ theme }) => ({
-  border: `${theme.spacing(0.5)}px solid`,
-  borderRadius: theme.spacing(1),
+const ModernAlert = styled(Alert)(({ theme }) => ({
+  borderRadius: theme.spacing(1.5),
   fontFamily: theme.typography.fontFamily,
+  border: 'none',
   '&.MuiAlert-standardInfo': {
-    backgroundColor: theme.palette.retro.cream,
-    borderColor: theme.palette.info.main,
+    backgroundColor: theme.palette.retro.blue,
     color: theme.palette.text.primary,
   },
   '&.MuiAlert-standardError': {
-    backgroundColor: theme.palette.retro.pink,
-    borderColor: theme.palette.error.main,
-    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.error.light || theme.palette.error.main,
+    color: theme.palette.error.contrastText,
   },
 }));
 
-const RetroTextField = styled(TextField)(({ theme }) => ({
+const ModernTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-root': {
-    backgroundColor: theme.palette.background.default,
-    border: `${theme.spacing(0.5)}px solid ${theme.palette.border}`,
-    borderRadius: theme.spacing(1),
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: theme.spacing(1.5),
     fontFamily: theme.typography.fontFamily,
+    border: `1px solid ${theme.palette.border}`,
     '&:hover': {
       borderColor: theme.palette.primary.main,
     },
     '&.Mui-focused': {
       borderColor: theme.palette.primary.main,
-      boxShadow: `0 0 0 ${theme.spacing(0.5)}px ${theme.palette.primary.main}40`,
+      boxShadow: `0 0 0 3px ${theme.palette.primary.main}20`,
     },
   },
   '& .MuiInputLabel-root': {
     fontFamily: theme.typography.fontFamily,
     fontWeight: theme.typography.subtitle1.fontWeight,
-    letterSpacing: theme.typography.subtitle1.letterSpacing,
+    color: theme.palette.text.secondary,
   },
   '& .MuiFormHelperText-root': {
     fontFamily: theme.typography.fontFamily,
@@ -80,28 +76,27 @@ const RetroTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const RetroButton = styled(Button)(({ theme }) => ({
-  borderRadius: theme.spacing(1),
-  padding: theme.spacing(2, 4),
-  border: `${theme.spacing(0.5)}px solid`,
+const ModernButton = styled(Button)(({ theme }) => ({
+  borderRadius: theme.spacing(1.5),
+  padding: theme.spacing(1.5, 3),
   fontFamily: theme.typography.fontFamily,
   fontWeight: theme.typography.button.fontWeight,
   fontSize: theme.typography.button.fontSize,
   letterSpacing: theme.typography.button.letterSpacing,
   textTransform: theme.typography.button.textTransform,
-  boxShadow: theme.shadows[1],
+  boxShadow: 'none',
+  border: 'none',
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
-    transform: 'translate(-1px, -1px)',
+    transform: 'translateY(-1px)',
     boxShadow: theme.shadows[2],
   },
   '&:active': {
-    transform: 'translate(0, 0)',
+    transform: 'translateY(0)',
     boxShadow: theme.shadows[1],
   },
   '&.MuiButton-contained': {
     backgroundColor: theme.palette.primary.main,
-    borderColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
     '&:hover': {
       backgroundColor: theme.palette.primary.dark || theme.palette.primary.main,
@@ -109,20 +104,21 @@ const RetroButton = styled(Button)(({ theme }) => ({
   },
   '&.MuiButton-outlined': {
     backgroundColor: theme.palette.background.paper,
-    borderColor: theme.palette.text.secondary,
+    border: `1px solid ${theme.palette.border}`,
     color: theme.palette.text.primary,
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
+      borderColor: theme.palette.primary.main,
     },
   },
 }));
 
-const RetroProgressBar = styled(LinearProgress)(({ theme }) => ({
-  height: theme.spacing(2),
-  borderRadius: theme.spacing(1),
-  backgroundColor: theme.palette.background.default,
+const ModernProgressBar = styled(LinearProgress)(({ theme }) => ({
+  height: theme.spacing(1),
+  borderRadius: theme.spacing(0.5),
+  backgroundColor: theme.palette.retro.beige,
   '& .MuiLinearProgress-bar': {
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(0.5),
   },
 }));
 
@@ -215,36 +211,36 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
   }, [open]);
 
   return (
-    <RetroDialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
-      <RetroDialogTitle>
+    <ModernDialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
+      <ModernDialogTitle>
         <IconContainer>
           <Lock size={24} />
           Password Management
         </IconContainer>
-      </RetroDialogTitle>
+      </ModernDialogTitle>
 
-      <DialogContent>
-        <RetroAlert severity='info' sx={{ mb: 2 }}>
+      <DialogContent sx={{ p: 3 }}>
+        <ModernAlert severity='info' sx={{ mb: 2 }}>
           {mode === 'change'
             ? 'Enter your current password and set a new password for your encrypted notes.'
             : 'Enter your current password to remove encryption. Your notes will be stored in plain text.'}
-        </RetroAlert>
+        </ModernAlert>
 
         {error && (
-          <RetroAlert severity='error' sx={{ mb: 2 }}>
+          <ModernAlert severity='error' sx={{ mb: 2 }}>
             {error}
-          </RetroAlert>
+          </ModernAlert>
         )}
 
         <ModeToggleContainer>
-          <RetroButton
+          <ModernButton
             variant={mode === 'change' ? 'contained' : 'outlined'}
             onClick={() => setMode('change')}
             disabled={loading}
             size='small'>
             Change Password
-          </RetroButton>
-          <RetroButton
+          </ModernButton>
+          <ModernButton
             variant={mode === 'remove' ? 'contained' : 'outlined'}
             color='error'
             onClick={() => setMode('remove')}
@@ -252,45 +248,45 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
             size='small'
             startIcon={<Trash size={16} />}>
             Remove Password
-          </RetroButton>
+          </ModernButton>
         </ModeToggleContainer>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <RetroTextField
+          <ModernTextField
             label='Current Password'
             type={showCurrentPassword ? 'text' : 'password'}
             value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPassword(e.target.value)}
             onKeyPress={handleKeyPress}
             fullWidth
             autoFocus
             disabled={loading}
             InputProps={{
               endAdornment: (
-                <RetroButton
+                <ModernButton
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                   sx={{ minWidth: 'auto', p: 1 }}>
                   {showCurrentPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
-                </RetroButton>
+                </ModernButton>
               ),
             }}
           />
 
           {mode === 'change' && (
             <>
-              <RetroTextField
+              <ModernTextField
                 label='New Password'
                 type={showNewPassword ? 'text' : 'password'}
                 value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
                 fullWidth
                 disabled={loading}
                 InputProps={{
                   endAdornment: (
-                    <RetroButton onClick={() => setShowNewPassword(!showNewPassword)} sx={{ minWidth: 'auto', p: 1 }}>
+                    <ModernButton onClick={() => setShowNewPassword(!showNewPassword)} sx={{ minWidth: 'auto', p: 1 }}>
                       {showNewPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
-                    </RetroButton>
+                    </ModernButton>
                   ),
                 }}
               />
@@ -300,7 +296,7 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
                   <Typography variant='caption' color='text.secondary'>
                     Password Strength
                   </Typography>
-                  <RetroProgressBar
+                  <ModernProgressBar
                     variant='determinate'
                     value={passwordStrength}
                     sx={{
@@ -320,11 +316,11 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
                 </Box>
               )}
 
-              <RetroTextField
+              <ModernTextField
                 label='Confirm New Password'
                 type={showConfirmPassword ? 'text' : 'password'}
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
                 onKeyPress={handleKeyPress}
                 fullWidth
                 disabled={loading}
@@ -332,11 +328,11 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
                 helperText={confirmPassword.length > 0 && !passwordsMatch ? 'Passwords do not match' : ''}
                 InputProps={{
                   endAdornment: (
-                    <RetroButton
+                    <ModernButton
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       sx={{ minWidth: 'auto', p: 1 }}>
                       {showConfirmPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
-                    </RetroButton>
+                    </ModernButton>
                   ),
                 }}
               />
@@ -352,7 +348,7 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
 
         {loading && (
           <Box sx={{ mt: 2 }}>
-            <RetroProgressBar />
+            <ModernProgressBar />
             <Typography variant='caption' color='text.secondary' sx={{ mt: 1 }}>
               {mode === 'change' ? 'Changing password...' : 'Removing encryption...'}
             </Typography>
@@ -360,18 +356,18 @@ export const PasswordManagement: React.FC<PasswordManagementProps> = ({
         )}
       </DialogContent>
 
-      <DialogActions>
-        <RetroButton onClick={onClose} disabled={loading} variant='outlined'>
+      <DialogActions sx={{ p: 3, pt: 0 }}>
+        <ModernButton onClick={onClose} disabled={loading} variant='outlined'>
           Cancel
-        </RetroButton>
-        <RetroButton
+        </ModernButton>
+        <ModernButton
           onClick={handleSubmit}
           variant='contained'
           disabled={!canSubmit || loading}
           color={mode === 'remove' ? 'error' : 'primary'}>
           {mode === 'change' ? 'Change Password' : 'Remove Password'}
-        </RetroButton>
+        </ModernButton>
       </DialogActions>
-    </RetroDialog>
+    </ModernDialog>
   );
 };

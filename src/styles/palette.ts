@@ -1,96 +1,96 @@
 import type { PaletteOptions } from '@mui/material';
 
-// Retro color palette inspired by 80s/90s computer interfaces
+// Modern pastel color palette with soft, contemporary colors
 const palette: PaletteOptions = {
   mode: 'light',
   primary: {
-    main: '#FF6B35', // Retro orange
-    contrastText: '#FFFBF0',
+    main: '#7C3AED', // Soft purple
+    contrastText: '#FFFFFF',
   },
   secondary: {
-    main: '#00D4AA', // Retro teal
-    contrastText: '#1A1A1A',
+    main: '#06B6D4', // Soft cyan
+    contrastText: '#FFFFFF',
   },
   background: {
-    default: '#FFFBF0', // Warm cream
-    paper: '#FFF8E7', // Light cream
+    default: '#FAFBFC', // Very light gray
+    paper: '#FFFFFF', // Pure white
   },
   text: {
-    primary: '#2D2D2D', // Dark charcoal
-    secondary: '#8B4513', // Retro brown
+    primary: '#1F2937', // Dark gray
+    secondary: '#6B7280', // Medium gray
   },
   success: {
-    main: '#32CD32', // Retro lime green
+    main: '#10B981', // Soft green
   },
   error: {
-    main: '#FF4757', // Retro red
+    main: '#EF4444', // Soft red
   },
   info: {
-    main: '#3742FA', // Retro blue
+    main: '#3B82F6', // Soft blue
   },
   warning: {
-    main: '#FFA502', // Retro amber
+    main: '#F59E0B', // Soft amber
   },
-  // Custom retro colors
+  // Custom modern colors
   retro: {
-    amber: '#FFA502',
-    pink: '#FF3838',
-    cyan: '#00D4AA',
-    purple: '#8E44AD',
-    green: '#32CD32',
-    blue: '#3742FA',
-    cream: '#FFFBF0',
-    beige: '#F5F5DC',
-    brown: '#8B4513',
-    shadow: 'rgba(0, 0, 0, 0.15)',
+    amber: '#FDE68A', // Pastel amber
+    pink: '#FBBF24', // Pastel pink
+    cyan: '#A7F3D0', // Pastel cyan
+    purple: '#C4B5FD', // Pastel purple
+    green: '#BBF7D0', // Pastel green
+    blue: '#BFDBFE', // Pastel blue
+    cream: '#FEF3C7', // Pastel cream
+    beige: '#F3F4F6', // Light beige
+    brown: '#9CA3AF', // Soft brown
+    shadow: 'rgba(0, 0, 0, 0.08)',
   },
-  border: '#E8E8E8',
+  border: '#E5E7EB',
 };
 
 const darkPalette: PaletteOptions = {
   mode: 'dark',
   primary: {
-    main: '#FF6B35', // Retro orange
-    contrastText: '#1A1A1A',
+    main: '#8B5CF6', // Lighter purple for dark mode
+    contrastText: '#FFFFFF',
   },
   secondary: {
-    main: '#00D4AA', // Retro teal
-    contrastText: '#1A1A1A',
+    main: '#22D3EE', // Lighter cyan for dark mode
+    contrastText: '#000000',
   },
   background: {
-    default: '#1A1A1A', // Dark charcoal
-    paper: '#2D2D2D', // Medium charcoal
+    default: '#111827', // Dark gray
+    paper: '#1F2937', // Medium dark gray
   },
   text: {
-    primary: '#FFFBF0', // Warm cream
-    secondary: '#FFA502', // Retro amber
+    primary: '#F9FAFB', // Light gray
+    secondary: '#9CA3AF', // Medium gray
   },
   success: {
-    main: '#32CD32', // Retro lime green
+    main: '#34D399', // Lighter green for dark mode
   },
   error: {
-    main: '#FF4757', // Retro red
+    main: '#F87171', // Lighter red for dark mode
   },
   info: {
-    main: '#3742FA', // Retro blue
+    main: '#60A5FA', // Lighter blue for dark mode
   },
   warning: {
-    main: '#FFA502', // Retro amber
+    main: '#FBBF24', // Lighter amber for dark mode
   },
-  // Custom retro colors for dark mode
+  // Custom modern colors for dark mode
   retro: {
-    amber: '#FFA502',
-    pink: '#FF3838',
-    cyan: '#00D4AA',
-    purple: '#8E44AD',
-    green: '#32CD32',
-    blue: '#3742FA',
-    cream: '#FFFBF0',
-    beige: '#F5F5DC',
-    brown: '#8B4513',
-    shadow: 'rgba(0, 0, 0, 0.4)',
+    amber: '#FDE68A',
+    pink: '#FBBF24',
+    cyan: '#A7F3D0',
+    purple: '#C4B5FD',
+    green: '#BBF7D0',
+    blue: '#BFDBFE',
+    cream: '#FEF3C7',
+    beige: '#374151',
+    brown: '#6B7280',
+    shadow: 'rgba(0, 0, 0, 0.25)',
   },
-  border: '#404040',
+  border: '#374151',
 };
 
 export default palette;
