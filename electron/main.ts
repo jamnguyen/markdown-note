@@ -126,15 +126,11 @@ function createWindow() {
 
   // Manual update check handler
   ipcMain.handle('check-for-updates', () => {
-    if (process.env.VITE_DEV_SERVER_URL) {
-      dialog.showMessageBox({
-        type: 'info',
-        title: 'Development Mode',
-        message: 'Auto-update is disabled in development mode.',
-      });
-      return;
-    }
-    autoUpdater.checkForUpdates();
+    dialog.showMessageBox({
+      type: 'info',
+      title: 'Auto-update Disabled',
+      message: 'Auto-update is currently disabled. Please check for updates manually.',
+    });
   });
 
   // In development, load from Vite dev server
@@ -145,8 +141,7 @@ function createWindow() {
   } else {
     // In production, load the built index.html
     mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
-    // Initial update check
-    setTimeout(() => autoUpdater.checkForUpdates(), 3000);
+    // Auto-update disabled - no automatic update check
   }
 }
 

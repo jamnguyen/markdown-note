@@ -11,7 +11,6 @@ import {
   NoteMeta,
   NoteListItemContent,
   DeleteIconButton,
-  CreditText,
   AboutButton,
   NoteTitleRow,
   NoteTitleEditIcon,

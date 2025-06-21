@@ -52,10 +52,7 @@
     "appId": "com.markdown-note.app",
     "productName": "Markdown Note",
     "icon": "src/assets/logo.png",
-    "publish": {
-      "provider": "generic",
-      "url": "https://your-website.com/downloads/latest"
-    },
+    "publish": null,
     "mac": {
       "category": "public.app-category.productivity",
       "icon": "src/assets/logo.png",
