@@ -19,6 +19,7 @@
     "@mui/icons-material": "^7.1.1",
     "@mui/material": "^7.1.1",
     "@reduxjs/toolkit": "^2.8.2",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "@uiw/react-codemirror": "^4.23.13",
     "electron-updater": "^6.6.2",
     "localforage": "^1.10.0",
@@ -27,6 +28,7 @@
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
+    "react-syntax-highlighter": "^15.6.1",
     "simplebar-react": "^3.3.1"
   },
   "devDependencies": {
