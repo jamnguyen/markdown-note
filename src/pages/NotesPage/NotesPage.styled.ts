@@ -28,3 +28,17 @@ export const EmptyState = styled(Box)(({ theme }) => ({
   flex: 1,
   color: theme.palette.text.secondary,
 }));
+
+export const ContentArea = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: 1,
+  minWidth: 0,
+}));
+
+export const EditorViewerArea = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flex: 1,
+  gap: theme.spacing(2),
+  minWidth: 0,
+}));

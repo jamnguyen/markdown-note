@@ -7,7 +7,8 @@ import { Layout } from '../../components/Layout';
 import { Sidebar } from '../../components/Sidebar';
 import { NoteEditor } from '../../components/NoteEditor';
 import { NoteViewer } from '../../components/NoteViewer';
-import { MainArea, EmptyState, EditorColumn } from './NotesPage.styled';
+import { TabBar } from '../../components/TabBar';
+import { MainArea, EmptyState, EditorColumn, ContentArea, EditorViewerArea } from './NotesPage.styled';
 import { Typography } from '@mui/material';
 
 type ThemeMode = 'light' | 'dark' | 'system';
@@ -114,12 +115,15 @@ export const NotesPage: React.FC<NotesPageProps> = ({ mode, setMode }) => {
       />
       <MainArea>
         {selectedNote ? (
-          <>
-            <EditorColumn>
-              <NoteEditor value={selectedNote.content} onChange={handleContentChange} themeMode={mode} />
-            </EditorColumn>
-            <NoteViewer value={selectedNote.content} />
-          </>
+          <ContentArea>
+            <TabBar selectedNote={selectedNote} />
+            <EditorViewerArea>
+              <EditorColumn>
+                <NoteEditor value={selectedNote.content} onChange={handleContentChange} themeMode={mode} />
+              </EditorColumn>
+              <NoteViewer value={selectedNote.content} />
+            </EditorViewerArea>
+          </ContentArea>
         ) : (
           <EmptyState>
             <Typography variant='body1' gutterBottom>

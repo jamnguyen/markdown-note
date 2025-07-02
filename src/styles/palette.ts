@@ -12,15 +12,15 @@ const palette: PaletteOptions = {
     contrastText: '#FFFFFF',
   },
   background: {
-    default: '#FAFBFC', // Very light gray
-    paper: '#FFFFFF', // Pure white
+    default: '#F5F6F7', // Softer light gray
+    paper: '#FBFBFB', // Off-white instead of pure white
   },
   text: {
     primary: '#1F2937', // Dark gray
     secondary: '#6B7280', // Medium gray
   },
   action: {
-    hover: 'rgba(0, 0, 0, 0.04)', // Light grey for hover
+    hover: 'rgba(0, 0, 0, 0.06)', // Slightly more visible hover
   },
   success: {
     main: '#10B981', // Soft green
@@ -47,7 +47,7 @@ const palette: PaletteOptions = {
     brown: '#9CA3AF', // Soft brown
     shadow: 'rgba(0, 0, 0, 0.08)',
   },
-  border: '#E5E7EB',
+  border: '#E0E2E5', // Softer border color
 };
 
 const darkPalette: PaletteOptions = {

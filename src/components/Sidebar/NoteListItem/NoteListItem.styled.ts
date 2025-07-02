@@ -14,7 +14,6 @@ export const NoteListItemWrapper = styled(ListItem)(({ theme }) => ({
 }));
 
 export const NoteListItem = styled(ListItemButton)(({ theme }) => ({
-  borderRadius: theme.spacing(0.75),
   margin: theme.spacing(0.5, 0),
   padding: theme.spacing(1.5),
   backgroundColor: 'transparent',
@@ -25,10 +24,10 @@ export const NoteListItem = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: theme.palette.action.hover,
   },
   '&.Mui-selected': {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
+    backgroundColor: `${theme.palette.primary.main}20`,
+    color: theme.palette.text.primary,
     '&:hover': {
-      backgroundColor: theme.palette.primary.dark || theme.palette.primary.main,
+      backgroundColor: `${theme.palette.primary.main}30`,
     },
   },
 }));
