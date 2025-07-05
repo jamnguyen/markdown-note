@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import SimpleBar from 'simplebar-react';
 
-export const ViewerContainer = styled(Box)(({ theme }) => ({
+export const ViewerContainer = styled(SimpleBar)(({ theme }) => ({
   flex: 1,
   minWidth: 0,
   height: '100vh',
@@ -11,17 +11,8 @@ export const ViewerContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
   borderRadius: 0,
   boxShadow: 'none',
-  overflowY: 'auto',
   fontFamily: theme.typography.fontFamily,
   fontSize: 16,
-  scrollbarWidth: 'thin',
-  '&::-webkit-scrollbar': {
-    width: 8,
-    background: 'transparent',
-  },
-  '&:hover::-webkit-scrollbar-thumb': {
-    background: 'rgba(0,0,0,0.2)',
-  },
   // Style code blocks - target inner code background for light mode visibility
   pre: {
     '> div': {

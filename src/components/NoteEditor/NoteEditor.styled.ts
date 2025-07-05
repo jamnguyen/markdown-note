@@ -1,29 +1,14 @@
 import { styled } from '@mui/material/styles';
-import { Box, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
+import SimpleBar from 'simplebar-react';
 
-export const EditorContainer = styled(Box)(({ theme }) => ({
+export const EditorContainer = styled(SimpleBar)(({ theme }) => ({
   flex: 1,
   minWidth: 0,
   height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
   background: theme.palette.background.paper,
   borderRadius: 0,
   boxShadow: 'none',
-  overflowY: 'auto',
-  scrollbarWidth: 'thin',
-  '&::-webkit-scrollbar': {
-    width: 8,
-    background: 'transparent',
-  },
-  '&:hover::-webkit-scrollbar-thumb': {
-    background: 'rgba(0,0,0,0.2)',
-  },
-  '& .cm-focused': {
-    outline: 'none',
-    boxShadow: 'none',
-    border: 'none',
-  },
 }));
 
 export const TitleInput = styled(TextField)(({ theme }) => ({

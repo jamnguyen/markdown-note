@@ -6,6 +6,7 @@ export const MainArea = styled(Box)(({ theme }) => ({
   flex: 1,
   gap: theme.spacing(2),
   minWidth: 0,
+  alignSelf: 'stretch',
 }));
 
 export const EditorColumn = styled(Box)(() => ({
@@ -34,6 +35,7 @@ export const ContentArea = styled(Box)(() => ({
   flexDirection: 'column',
   flex: 1,
   minWidth: 0,
+  minHeight: 0,
 }));
 
 export const EditorViewerArea = styled(Box)(({ theme }) => ({
@@ -41,4 +43,5 @@ export const EditorViewerArea = styled(Box)(({ theme }) => ({
   flex: 1,
   gap: theme.spacing(2),
   minWidth: 0,
+  minHeight: 0,
 }));
