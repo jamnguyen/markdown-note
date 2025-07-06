@@ -4,7 +4,7 @@ import SimpleBar from 'simplebar-react';
 export const ViewerContainer = styled(SimpleBar)(({ theme }) => ({
   flex: 1,
   minWidth: 0,
-  height: '100vh',
+  height: '100%',
   display: 'flex',
   flexDirection: 'column',
   background: theme.palette.background.paper,
